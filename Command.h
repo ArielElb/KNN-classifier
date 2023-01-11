@@ -4,7 +4,10 @@
 
 class Command {
 
+public:
+    virtual void execute();
+
 };
 
 
-#endif //ASS4_COMMAND_H
+#endif
