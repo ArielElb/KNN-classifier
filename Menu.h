@@ -1,16 +1,13 @@
 #ifndef ASS4_MENU_H
 #define ASS4_MENU_H
 #include <vector>
+#include "Command.h"
 
 class Menu {
-
 private:
-    vector<Command> commands;
-
+    std::vector<Command> commands;
 public:
     Menu();
     void showMenu();
 };
-
-
 #endif
