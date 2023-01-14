@@ -4,8 +4,6 @@
 
 #include <iostream>
 #include "Menu.h"
-Menu::Menu() = default;
-
 
 void Menu::showMenu(std::vector<Command *> commands) {
     int choice;
