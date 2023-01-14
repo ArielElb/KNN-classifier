@@ -5,7 +5,9 @@
 #include <iostream>
 #include "Menu.h"
 Menu::Menu() = default;
-void Menu::showMenu() {
+
+
+void Menu::showMenu(std::vector<Command *> commands) {
     int choice;
     do {
         std::cout << "Welcome to the Anomaly Detection Server" << std::endl;
@@ -19,28 +21,27 @@ void Menu::showMenu() {
         std::cin >> choice;
         switch (choice) {
             case 1:
-                commands[0].execute();
+                commands[0]->execute();
                 break;
             case 2:
-                commands[1].execute();
+                commands[1]->execute();
                 break;
             case 3:
-                commands[2].execute();
+                commands[2]->execute();
                 break;
             case 4:
-                commands[3].execute();
+                commands[3]->execute();
                 break;
             case 5:
-                commands[4].execute();
+                commands[4]->execute();
                 break;
-            case 6:
-                commands[5].execute();
+            case 8:
                 break;
             default:
                 std::cout << "Invalid input" << std::endl;
                 break;
         }
-    } while (choice != 6);
-    // show the menu
-    // get th
+    } while (choice != 8);
+
+
 }

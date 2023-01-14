@@ -2,12 +2,11 @@
 #define ASS4_MENU_H
 #include <vector>
 #include "Command.h"
-
 class Menu {
-private:
-    std::vector<Command> commands;
+
 public:
-    Menu();
-    void showMenu();
+    Menu() = default;
+    ~Menu() = default;
+     void showMenu(std::vector<Command*> commands);
 };
 #endif
