@@ -6,11 +6,12 @@
 #define ASS4_SOCKETIO_H
 
 #include <string>
-class SocketIO {
+#include "DefaultIO.h"
+
+class SocketIO : public DefaultIO {
     // bindSocket , listen , accept , read , write , close - methods
-    virtual  void send(const std::string& data) = 0;
-    virtual  int connect() = 0;
-    virtual  std::string receive() = 0;
+    std::string read() override;
+    void write(std::string string) override;
     virtual  int bindSocket(int port) = 0;
     virtual  ~SocketIO() = default;
 
