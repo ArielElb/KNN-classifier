@@ -9,6 +9,11 @@
 class DisplayCommand : public  Command {
     void execute() override;
 
+    virtual ~DisplayCommand() = default;
+
+public:
+//constractor
+DisplayCommand() = default;
 };
 
 

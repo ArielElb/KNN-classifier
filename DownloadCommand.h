@@ -9,6 +9,11 @@
 class DownloadCommand :public  Command {
     void execute() override;
 
+    virtual ~DownloadCommand() = default;
+
+public:
+//constractor
+DownloadCommand() = default;
 };
 
 

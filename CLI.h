@@ -8,12 +8,16 @@
 #include "UploadCommand.h"
 #include "Command.h"
 #include <vector>
+#include "Menu.h"
 class CLI {
 public:
+    CLI(); //constructor
+    virtual ~CLI() = default; //destructor
+    Menu* menu = new Menu();
     void start();
-    void initCommands();
 private:
     std::vector<Command*> commands;
+    void initCommands();
 };
 
 #endif //ASS4_CLI_H

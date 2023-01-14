@@ -75,7 +75,7 @@ int getPort(string portStr) {
  * Get socket file descriptor, throw exception in case of failure
  * @return file descriptor of binded socket
  */
-int Server::bindSocket(int port) {
+int bindSocket(int port) {
     int sock = socket(AF_INET, SOCK_STREAM, 0);     // get socket
     if (sock < 0) {
         throw std::ios_base::failure("error creating socket");
@@ -97,10 +97,8 @@ int Server::bindSocket(int port) {
  * @return
  */
 int main(int argc, char *argv[]) {
-    Server server;
     string path = argv[1];              // save file path argument
     string portStr = argv[2];           // save port argument
-                                        
     int port = getPort(portStr);        // get int representation of port number
     if (port < 0) {
         return 1;
@@ -117,7 +115,7 @@ int main(int argc, char *argv[]) {
     }
     int sock;
     try {
-        sock = server.bindSocket(port);    // bindSocket socket
+        sock = bindSocket(port);    // bindSocket socket
     } catch (std::ios_base::failure const &ex) {
         std::cout << ex.what() << std::endl;
         return -1;

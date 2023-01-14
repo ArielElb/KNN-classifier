@@ -3,11 +3,10 @@
 #include <vector>
 #include "Command.h"
 class Menu {
-private:
-    std::vector<Command> commands;
+
 public:
-    Menu();
-    void showMenu();
-    void setCommand(Command command, int index);
+    Menu() = default;
+    ~Menu() = default;
+     void showMenu(std::vector<Command*> commands);
 };
 #endif

@@ -10,6 +10,12 @@
 
 class ClassifyCommand : public  Command {
     void execute() override;
+
+    virtual ~ClassifyCommand() = default;
+
+public:
+//constractor
+ClassifyCommand() = default;
 };
 
 

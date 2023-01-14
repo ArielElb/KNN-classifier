@@ -8,6 +8,12 @@
 
 class UploadCommand : public  Command {
     void execute() override;
+
+    virtual ~UploadCommand() = default;
+
+public:
+//constractor
+UploadCommand() = default;
 };
 
 #endif //ASS4_UPLOADCOMMAND_H

@@ -8,6 +8,12 @@
 
 class SettingsCommand : public  Command {
     void execute() override;
+
+    virtual ~SettingsCommand() = default;
+
+public:
+//constractor
+SettingsCommand() = default;
 };
 
 
