@@ -6,7 +6,7 @@ class Menu {
 
 public:
     Menu() = default;
-    ~Menu() = default;
+    virtual ~Menu() = default;
      void showMenu(std::vector<Command*> commands);
 };
 #endif

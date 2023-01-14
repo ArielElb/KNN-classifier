@@ -12,7 +12,9 @@
 class CLI {
 public:
     CLI(); //constructor
-    virtual ~CLI() = default; //destructor
+    virtual ~CLI(){
+        delete menu;
+    } //destructor
     Menu* menu = new Menu();
     void start();
 private:
