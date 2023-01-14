@@ -44,3 +44,10 @@ void Menu::showMenu() {
     // show the menu
     // get th
 }
+
+void Menu::setCommand(Command command, int index) {
+    commands[index] = command;
+}
+
+
+}
