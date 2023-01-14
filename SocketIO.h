@@ -13,7 +13,8 @@ class SocketIO : public DefaultIO {
     std::string read() override;
     void write(std::string string) override;
     virtual  int bindSocket(int port) = 0;
-    virtual  ~SocketIO() = default;
+    SocketIO() = default;
+    virtual ~SocketIO() = default;
 
 
 
