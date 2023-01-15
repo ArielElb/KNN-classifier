@@ -2,7 +2,6 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
-
 #include <iostream>
 #include <sys/socket.h>
 #include <stdio.h>
@@ -10,7 +9,13 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
+
 #include <cstring>
+
+struct {
+    Server* server;
+    int sock;
+} typedef ServerData;
 
 using std::string;
 
@@ -55,7 +60,7 @@ Vector Server::extractVector(string &input) {
  * Converts string into valid int for port
  * @return valid port number, or -1 if none exists
  */
-int Server::getPort(string portStr) {
+int Server::extractPort(string portStr) {
     int port;
     try {
         port = std::stoi(portStr);
@@ -91,12 +96,14 @@ int Server::bindSock(int port) {
     }
     return sock;
 }
+
+
 // Multithreaded client handling credited to "How to write a multithreaded server in C (threads, sockets)"
 // by Jacob Sorber, YouTube (https://www.youtube.com/watch?v=Pg_4Jz8ZIH4)
-void* Server::connectionHandler(void* inputArgs) {
-    serverArgs args = *(serverArgs *) inputArgs;
-    int sock = args.client_sock;
-    Database database = *args.database;
+void* connectionHandler(void* inputServer) {
+    ServerData* serverData = (ServerData*) inputServer;
+    Server* server = serverData->server;
+    int sock = serverData->sock;
     std::string data;
     // client connected established, accept input until client closes connection
     while (true) {
@@ -128,8 +135,8 @@ void* Server::connectionHandler(void* inputArgs) {
                 Vector v;
                 try {           // parse input, check validity of k and vector size
                     k = std::stoi(data.substr(data.find_last_of(',') + 1));
-                    v = extractVector(data);
-                    checkUserInput(v.size(), database, k);
+                    v = Server::extractVector(data);
+                    Server::checkUserInput(v.size(), *server->getDatabase(), k);
                 }
                 catch (std::ios_base::failure const &ex) {
                     send(sock, "invalid input", 13, 0);
@@ -144,9 +151,8 @@ void* Server::connectionHandler(void* inputArgs) {
                 // extract the distance function from the input
                 string distanceFunction = data.substr(data.find_last_of(',') - 3, 3);
                 // input has been parsed and checked, do knn on vector, and send classification
-                string classification = database.knn(v, distanceFunction, k);
-                int sent_bytes = send(sock, classification.c_str(),
-                                      classification.length(), 0);
+                string classification = server->getDatabase()->knn(v, distanceFunction, k);
+                int sent_bytes = send(sock, classification.c_str(),classification.length(), 0);
                 data = "";
                 if (sent_bytes < 0) {
                     perror("Error sending to client");
@@ -158,15 +164,15 @@ void* Server::connectionHandler(void* inputArgs) {
 }
 
 Server::Server(std::string portStr, std::string path) {
-    port = getPort(portStr);        // get int representation of port number
+    port = extractPort(portStr);        // get int representation of port number
     if (port < 0) {
         throw std::ios_base::failure("Error getting port number");
     }
-    database(path);
+    database = new Database(path);  // create database object
     try {
-        database.init();
+        database->init();
     } catch (std::ios_base::failure const &ex) {
-        throw std::ios_base::failure("Error initializing database. Check input files.")
+        throw std::ios_base::failure("Error initializing database. Check input files.");
     }
 }
 
@@ -194,14 +200,21 @@ void Server::run() {
             throw std::ios_base::failure("Error accepting client");
         }
         std::cout << "Accepted client" << std::endl;
-        serverArgs args;
-        args.client_sock = client_sock;
-        args.database = &database;
-        if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &args) < -1) {
+        // create thread to handle client
+        ServerData data;
+        data.sock = client_sock;
+        data.server = this;
+
+        if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &data) < 0) {
             throw std::ios_base::failure("Could not create thread");
         }
     }
 }
+
+Database *Server::getDatabase() {
+    return database;
+}
+
 
 
 

@@ -20,6 +20,7 @@ public:
     void run();
     Client(std::string ipStr, std::string portStr);
     ~Client() = default;
+
 };
 
 #endif //ASS4_CLIENT_H
