@@ -1,18 +1,13 @@
 // Client side C/C++ program to demonstrate Socket
 // programming
-#include <arpa/inet.h>
-#include <cstdio>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <iostream>
-#include <string>
-#include <algorithm>
-#include "Vector.h"
+
+
+#include "Client.h"
 
 /**
  * Checks validity of inputed distance function. Throws exception if invalid
  */
-void checkDistanceFunc(std::string &distance) {
+void Client::checkDistanceFunc(std::string &distance) {
     if (distance == "MAN" || distance == "AUC" || distance == "CHE" || distance == "MIN" 
             || distance == "CHB") {
         return;
@@ -23,7 +18,7 @@ void checkDistanceFunc(std::string &distance) {
 /**
  * Check validity of uder input. Throws exception if invalid
  */
-void checkValidInput(std::string &input) {
+void Client::checkValidInput(std::string &input) {
     std::vector<std::string> elems;
     string vector;
     std::stringstream ss(input);
@@ -55,7 +50,7 @@ void checkValidInput(std::string &input) {
  * converts string into valid int for port
  * @return valid port number, or -1 if none exists
  */
-int getPort(string portStr) {
+int Client::getPort(string portStr) {
     int port;
     try {
         port = std::stoi(portStr);
@@ -75,38 +70,40 @@ int getPort(string portStr) {
  * Connect to socket, throw exception in case of failure
  * @return file descriptor of connected socket 
  */
-int connectSock(int port) {
+int Client::connectSock() {
     int sock = 0, valread, client_fd;
-    struct sockaddr_in serv_addr{};
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
        throw std::ios_base::failure("Socket creation error");
     }
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
+    if (inet_pton(AF_INET, ip, &serv_addr.sin_addr <= 0)) {
+        throw ////TODO
+    }
     if ((client_fd = connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr))) < 0) {
         throw std::ios_base::failure("\nConnection Failed");
     }
     return sock;
 }
 
+Client::Client(std::string ipStr, std::string portStr) {
+    port = getPort(portStr);
+    if (port < 0) {
+        throw std::ios_base::failure("Error getting port number");
+    }
+    ip = portStr;
+}
+
 /**
  * main function
  */
-int main(int argc, char const *argv[]) {
-    const char *ip = argv[1];           // save ip address arg
-    string portStr = argv[2];           // save port argument
-
-    int port = getPort(portStr);        // get int repr of port number
-    if (port < 0) {
-        return -1;
-    }
+void Client::run(){
     // connect to socket
     int sock;
     try { 
         sock = connectSock(port);
     } catch (std::ios_base::failure const &ex) {
-        std::cout<< ex.what() << std::endl;
-        return -1;
+        throw ex;
     }
     // connected to server via socket, proceed
     while (true) {

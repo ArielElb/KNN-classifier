@@ -23,7 +23,6 @@ class Server{
 public:
     void run();
     Server(std::string portStr, std::string pathIn);
+    ~Server() = default;
 };
-
-
 #endif //ASS4_SERVER_H

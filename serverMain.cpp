@@ -1,5 +1,6 @@
-int main(int argc, char *argv[]) {
+#include "Server.h"
 
+int main(int argc, char *argv[]) {
     string path = argv[1];              // save file path argument
     string portStr = argv[2];           // save port argument
     Server server;
