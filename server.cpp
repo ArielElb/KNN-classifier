@@ -204,7 +204,6 @@ void Server::run() {
         ServerData data;
         data.sock = client_sock;
         data.server = this;
-
         if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &data) < 0) {
             throw std::ios_base::failure("Could not create thread");
         }

@@ -9,16 +9,18 @@
 #include "Command.h"
 #include <vector>
 #include "Menu.h"
+#include "DefaultIO.h"
+#include "Database.h"
+
 class CLI {
 public:
-    CLI(); //constructor
-    virtual ~CLI(){
-        delete menu;
-    } //destructor
-    Menu* menu = new Menu();
+    explicit CLI(DefaultIO *dio);
+    virtual ~CLI();
     void start();
 private:
-    std::vector<Command*> commands;
+    Database *database{};
+    DefaultIO *dio;
+    std::vector<Command *> commands;
     void initCommands();
 };
 

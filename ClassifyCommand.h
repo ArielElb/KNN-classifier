@@ -18,7 +18,4 @@ public:
 ClassifyCommand() = default;
 };
 
-
-
-
 #endif //ASS4_CLASSIFYCOMMAND_H

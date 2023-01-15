@@ -5,13 +5,13 @@
 #include "Menu.h"
 #include "Vector.h"
 #include "SocketIO.h"
-
+#include "CLI.h"
 class Server{
-    Database* database;
-    int port;
-
+    Database* database{};
+    int port{};
 public:
     Server() = default;
+    ~Server() = default;
     int bindSock(int port);
     static int extractPort(std::string portStr);
     static Vector extractVector(std::string &input);
@@ -19,6 +19,5 @@ public:
     Database* getDatabase();
     void run();
     Server(std::string portStr, std::string pathIn);
-    ~Server() = default;
 };
 #endif //ASS4_SERVER_H

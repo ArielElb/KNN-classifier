@@ -12,12 +12,13 @@ class SocketIO : public DefaultIO {
     // bindSocket , listen , accept , read , write , close - methods
     std::string read() override;
     void write(std::string string) override;
+
     virtual  int bindSocket(int port) = 0;
-    SocketIO() = default;
+    explicit SocketIO(int sockfd) {
+        this->sockfd = sockfd;
+    }
     virtual ~SocketIO() = default;
-
-
-
+    int sockfd;
 };
 
 
