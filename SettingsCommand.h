@@ -5,6 +5,8 @@
 #ifndef ASS4_SETTINGSCOMMAND_H
 #define ASS4_SETTINGSCOMMAND_H
 #include "Command.h"
+#include "DefaultIO.h"
+#include "Database.h"
 
 class SettingsCommand : public  Command {
     void execute() override;
@@ -13,7 +15,7 @@ class SettingsCommand : public  Command {
 
 public:
 //constractor
-SettingsCommand() = default;
+    SettingsCommand(DefaultIO *pIo, Database *pDatabase) = default;
 };
 
 

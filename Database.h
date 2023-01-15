@@ -22,7 +22,7 @@ using std::istream;
 class Database {
 
 private:
-    vector<string> fileNames;
+    string fileContent;
     vector<Vector> vectors;
     Distances *distance;
 

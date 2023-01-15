@@ -2,8 +2,8 @@
 // Created by arie1 on 1/14/2023.
 //
 
-#ifndef ASS4_CLI_H
-#define ASS4_CLI_H
+#ifndef ASS4_SERVERCLI_H
+#define ASS4_SERVERCLI_H
 
 #include "UploadCommand.h"
 #include "Command.h"
@@ -12,10 +12,10 @@
 #include "DefaultIO.h"
 #include "Database.h"
 
-class CLI {
+class ServerCLI {
 public:
-    explicit CLI(DefaultIO *dio);
-    virtual ~CLI();
+    explicit ServerCLI(DefaultIO *dio);
+    virtual ~ServerCLI();
     void start();
 private:
     Database *database{};
@@ -24,4 +24,4 @@ private:
     void initCommands();
 };
 
-#endif //ASS4_CLI_H
+#endif //ASS4_SERVERCLI_H

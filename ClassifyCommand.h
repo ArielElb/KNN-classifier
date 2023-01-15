@@ -7,6 +7,8 @@
 
 
 #include "Command.h"
+#include "DefaultIO.h"
+#include "Database.h"
 
 class ClassifyCommand : public  Command {
     void execute() override;
@@ -15,7 +17,7 @@ class ClassifyCommand : public  Command {
 
 public:
 //constractor
-ClassifyCommand() = default;
+    ClassifyCommand(DefaultIO *pIo, Database *pDatabase);
 };
 
 #endif //ASS4_CLASSIFYCOMMAND_H

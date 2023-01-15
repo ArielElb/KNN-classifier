@@ -5,7 +5,7 @@
 #include "Menu.h"
 #include "Vector.h"
 #include "SocketIO.h"
-#include "CLI.h"
+#include "ServerCLI.h"
 class Server{
     Database* database{};
     int port{};

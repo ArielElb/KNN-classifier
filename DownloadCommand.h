@@ -5,6 +5,8 @@
 #ifndef ASS4_DOWNLOADCOMMAND_H
 #define ASS4_DOWNLOADCOMMAND_H
 #include "Command.h"
+#include "DefaultIO.h"
+#include "Database.h"
 
 class DownloadCommand :public  Command {
     void execute() override;
@@ -13,7 +15,7 @@ class DownloadCommand :public  Command {
 
 public:
 //constractor
-DownloadCommand() = default;
+    DownloadCommand(DefaultIO *pIo, Database *pDatabase) = default;
 };
 
 
