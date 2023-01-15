@@ -5,10 +5,18 @@
 #include "UploadCommand.h"
 
 void UploadCommand::execute() {
-    std::string data = dio->read();
-    const std::string& fileName = data;
-    this-> database =  new Database(fileName);
-    this-> database->init();
+    dio->write("Please upload your local train CSV file.\n");
+    /// data is t
+    std::string fileContent = dio->read();
+    try {
+        this->database = new Database(fileContent);
+        this->database->init();
+
+        dio->write("Upload complete.\n");
+    } catch (const std::exception& e) {
+        dio->write("invalid input\n");
+        return;
+    }
 
     // upload an unclassified csv file data file to the server
     // the file will be classified by the server

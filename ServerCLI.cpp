@@ -2,39 +2,40 @@
 // Created by arie1 on 1/14/2023.
 //
 
-#include "CLI.h"
+#include "ServerCLI.h"
 #include "SettingsCommand.h"
 #include "ClassifyCommand.h"
 #include "DisplayCommand.h"
 #include "DownloadCommand.h"
 #include "SocketIO.h"
 
-void CLI::initCommands() {
+void ServerCLI::initCommands() {
     commands.push_back(new UploadCommand(dio, database));
-    commands.push_back(new SettingsCommand());
-    commands.push_back(new ClassifyCommand());
-    commands.push_back(new DisplayCommand());
-    commands.push_back(new DownloadCommand());
+    commands.push_back(new SettingsCommand(dio, database));
+    commands.push_back(new ClassifyCommand(dio, database));
+    commands.push_back(new DisplayCommand(dio, database));
+    commands.push_back(new DownloadCommand(dio, database));
+
 }
 
-CLI::CLI(DefaultIO *dio) {
+ServerCLI::ServerCLI(DefaultIO *dio) {
     initCommands();
     this->dio = dio;
     int k = 0;
     std::string matrix;
 }
 
-void CLI::start() {
+void ServerCLI::start() {
     int choice;
     dio->write("Welcome to the Anomaly Detection Server.\nPlease choose an option:\n");
-    std::string data  = dio->read();
-    try {
-         choice = std::stoi(data);
-    }
-    catch (std::exception &e) {
-        dio->write("Not a valid input");
-    }
     do {
+        std::string data  = dio->read();
+        try {
+            choice = std::stoi(data);
+        }
+        catch (std::exception &e) {
+            dio->write("Not a valid input");
+        }
         switch (choice) {
             case 1:
                 commands[0]->execute();
@@ -60,7 +61,7 @@ void CLI::start() {
     } while (choice != 8);
 
 }
-CLI::~CLI() {
+ServerCLI::~ServerCLI() {
     delete this->database;
     delete this->dio;
     for (auto &command : commands) {

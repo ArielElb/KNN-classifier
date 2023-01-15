@@ -12,9 +12,7 @@ using std::vector;
  */
 Database::Database(const string &s) {
     // Create string vector for class parameter
-    vector<string> v;
-    v.push_back(s);
-    this->fileNames = v;
+    this->fileContent = s;
     this->distance = nullptr;
 }
 
@@ -25,27 +23,20 @@ Database::Database(const string &s) {
  */
 void Database::init() {
     // Iterate over member file list
-    for (const string &s: this->fileNames) {
-        std::fstream file;
-        file.open(s);
-        if (file.is_open()) {
-            string line;
-            // Read one line at a time
-            while (getline(file, line)) {
-                Vector v;
-                // Init vector from the line, then push it into member Vector list
-                try {
-                    v.initFromString(line);
-                }
-                catch (std::ios_base::failure const &ex) {
-                    throw;
-                }
-                this->vectors.push_back(v);
-            }
-            file.close();
-        } else {
-            throw std::ios_base::failure("File not found. Exiting program");
+    std::istringstream sstream(fileContent);
+    char del = '\n';
+    string line;
+    // Read one line at a time
+    while (std::getline(sstream, line, del)) {
+        Vector v;
+        // Init vector from the line, then push it into member Vector list
+        try {
+            v.initFromString(line);
         }
+        catch (std::ios_base::failure const &ex) {
+            throw;
+        }
+        this->vectors.push_back(v);
     }
     if (this->vectors.empty()) { // Exit if database contains no vectors
         throw std::ios_base::failure("File contains no valid vectors. Exiting program");
