@@ -1,5 +1,3 @@
-#include "Vector.h"
-#include "Database.h"
 #include "Server.h"
 #include <sstream>
 #include <string>
@@ -12,20 +10,15 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <semaphore.h>
 #include <cstring>
 
 using std::string;
 
-struct serverArgs {
-    int client_sock;
-    Database* database;
-};
 
 /**
  * Check if inputed vector size, k, are valid for database. Throw exception if not
  */
-void checkUserInput(unsigned long vectorSize, Database &database, int k) {
+void Server::checkUserInput(unsigned long vectorSize, Database &database, int k) {
     if (vectorSize != database.getVectorSize()) {
         throw std::ios_base::failure("Invalid Input");
     }
@@ -37,7 +30,7 @@ void checkUserInput(unsigned long vectorSize, Database &database, int k) {
  * Extract vector from user input
  * @return Vector object from user input
  */
-Vector extractVector(string &input) {
+Vector Server::extractVector(string &input) {
     std::vector<std::string> elems;
     string vector;
     std::stringstream ss(input);
@@ -62,7 +55,7 @@ Vector extractVector(string &input) {
  * Converts string into valid int for port
  * @return valid port number, or -1 if none exists
  */
-int getPort(string portStr) {
+int Server::getPort(string portStr) {
     int port;
     try {
         port = std::stoi(portStr);
@@ -82,7 +75,7 @@ int getPort(string portStr) {
  * Get socket file descriptor, throw exception in case of failure
  * @return file descriptor of binded socket
  */
-int bindSock(int port) {
+int Server::bindSock(int port) {
     int sock = socket(AF_INET, SOCK_STREAM, 0);     // get socket
     if (sock < 0) {
         throw std::ios_base::failure("error creating socket");
@@ -98,8 +91,9 @@ int bindSock(int port) {
     }
     return sock;
 }
-
-void* connectionHandler(void* inputArgs) {
+// Multithreaded client handling credited to "How to write a multithreaded server in C (threads, sockets)"
+// by Jacob Sorber, YouTube (https://www.youtube.com/watch?v=Pg_4Jz8ZIH4)
+void* Server::connectionHandler(void* inputArgs) {
     serverArgs args = *(serverArgs *) inputArgs;
     int sock = args.client_sock;
     Database database = *args.database;
@@ -163,38 +157,31 @@ void* connectionHandler(void* inputArgs) {
     return nullptr;
 }
 
-/**
- * main function
- * @return
- */
-int main(int argc, char *argv[]) {
-    string path = argv[1];              // save file path argument
-    string portStr = argv[2];           // save port argument
-    int port = getPort(portStr);        // get int representation of port number
+Server::Server(std::string portStr, std::string path) {
+    port = getPort(portStr);        // get int representation of port number
     if (port < 0) {
-        return 1;
+        throw std::ios_base::failure("Error getting port number");
     }
-
-    Database database(path);            // initialize database
+    database(path);
     try {
         database.init();
+    } catch (std::ios_base::failure const &ex) {
+        throw std::ios_base::failure("Error initializing database. Check input files.")
     }
-    catch (std::ios_base::failure const &ex) {
-        std::cout << "Error initializing database. Check input files." << std::endl;
-        std::cout << ex.what() << std::endl;
-        return 1;
-    }
+}
+
+void Server::run() {
+    // Multithreaded client handling credited to "How to write a multithreaded server in C (threads, sockets)"
+    // by Jacob Sorber, YouTube (https://www.youtube.com/watch?v=Pg_3Jz8ZIH4)
     int sock;
     try {
         sock = bindSock(port);
     } catch (std::ios_base::failure const &ex) {
-        std::cout << ex.what() << std::endl;
-        return -1;
+        throw std::ios_base::failure(ex.what());
     }
     // listen
-    if (listen(sock, 5) < 0) {
-        perror("Error listening to a socket");
-        return 1;
+    if (listen(sock, 4) < 0) {
+        throw std::ios_base::failure("Error listening to a socket");
     }
     pthread_t thread_id;
     // all is good, proceed to run server functionality
@@ -203,20 +190,17 @@ int main(int argc, char *argv[]) {
         struct sockaddr_in client_sin{};
         unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
-        if (client_sock < 0) {
-            perror("Error accepting client");
-            return 1;
+        if (client_sock < -1) {
+            throw std::ios_base::failure("Error accepting client");
         }
         std::cout << "Accepted client" << std::endl;
         serverArgs args;
         args.client_sock = client_sock;
         args.database = &database;
-        if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &args) < 0) {
-            perror("Could not create thread");
-            return 1;
+        if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &args) < -1) {
+            throw std::ios_base::failure("Could not create thread");
         }
     }
-    return 0;
 }
 
 
