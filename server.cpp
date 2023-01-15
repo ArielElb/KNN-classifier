@@ -11,9 +11,16 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <semaphore.h>
 #include <cstring>
 
 using std::string;
+
+struct serverArgs {
+    int client_sock;
+    Database* database;
+};
 
 /**
  * Check if inputed vector size, k, are valid for database. Throw exception if not
@@ -75,7 +82,7 @@ int getPort(string portStr) {
  * Get socket file descriptor, throw exception in case of failure
  * @return file descriptor of binded socket
  */
-int bindSocket(int port) {
+int bindSock(int port) {
     int sock = socket(AF_INET, SOCK_STREAM, 0);     // get socket
     if (sock < 0) {
         throw std::ios_base::failure("error creating socket");
@@ -86,10 +93,74 @@ int bindSocket(int port) {
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = INADDR_ANY;
     sin.sin_port = htons(port);
-    if (bind(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {    // bindSocket to socket
+    if (bind(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {    // bind to socket
         throw std::ios_base::failure("error binding socket");
     }
     return sock;
+}
+
+void* connectionHandler(void* inputArgs) {
+    serverArgs args = *(serverArgs *) inputArgs;
+    int sock = args.client_sock;
+    Database database = *args.database;
+    std::string data;
+    // client connected established, accept input until client closes connection
+    while (true) {
+        //  clear buffer for safety
+        char buffer[4096] = {0};
+        int expected_data_len = sizeof(buffer);
+        // receive from client
+        int read_bytes = recv(sock, buffer, expected_data_len, 0);
+        if (read_bytes == 0) {
+            // nothing received, drop client
+            break;
+        } else if (read_bytes < 0) {
+            // receiving from client failed, drop client
+            std::cout << "Something went wrong receiving from the client." << std::endl;
+            break;
+        } else {
+            // input received, do work on input
+            data += std::string(buffer, read_bytes);    // turn buffer into string type
+            if (data == "-1") {
+                // client wants to disconnect, drop client
+                std::cout << "Client disconnected" << std::endl;
+                close(sock);
+                break;
+            }
+            // check if accumulated input contains '\n' (i.e. message has been completed),
+            // otherwise, continue receiving
+            if (data[data.length() - 1] == '\n') {      // Complete message recieved, proceed
+                int k;
+                Vector v;
+                try {           // parse input, check validity of k and vector size
+                    k = std::stoi(data.substr(data.find_last_of(',') + 1));
+                    v = extractVector(data);
+                    checkUserInput(v.size(), database, k);
+                }
+                catch (std::ios_base::failure const &ex) {
+                    send(sock, "invalid input", 13, 0);
+                    data = "";
+                    continue;
+                }
+                catch (std::invalid_argument const &ex) {
+                    send(sock, "invalid input", 13, 0);
+                    data = "";
+                    continue;
+                }
+                // extract the distance function from the input
+                string distanceFunction = data.substr(data.find_last_of(',') - 3, 3);
+                // input has been parsed and checked, do knn on vector, and send classification
+                string classification = database.knn(v, distanceFunction, k);
+                int sent_bytes = send(sock, classification.c_str(),
+                                      classification.length(), 0);
+                data = "";
+                if (sent_bytes < 0) {
+                    perror("Error sending to client");
+                }
+            }
+        }
+    }
+    return nullptr;
 }
 
 /**
@@ -115,7 +186,7 @@ int main(int argc, char *argv[]) {
     }
     int sock;
     try {
-        sock = bindSocket(port);    // bindSocket socket
+        sock = bindSock(port);
     } catch (std::ios_base::failure const &ex) {
         std::cout << ex.what() << std::endl;
         return -1;
@@ -125,6 +196,7 @@ int main(int argc, char *argv[]) {
         perror("Error listening to a socket");
         return 1;
     }
+    pthread_t thread_id;
     // all is good, proceed to run server functionality
     while (true) {
         // initialize connection to next client
@@ -135,64 +207,16 @@ int main(int argc, char *argv[]) {
             perror("Error accepting client");
             return 1;
         }
-        std::string data;
-        // client connected established, accept input until client closes connection
-        while (true) {
-            //  clear buffer for safety
-            char buffer[4096] = {0};
-            int expected_data_len = sizeof(buffer);
-            // receive from client
-            int read_bytes = recv(client_sock, buffer, expected_data_len, 0);
-            if (read_bytes == 0) {
-                // nothing received, drop client
-                break;
-            } else if (read_bytes < 0) {
-                // receiving from client failed, drop client
-                std::cout << "Something went wrong recieving from the client." << std::endl;
-                break;
-            } else {
-                // input received, do work on input 
-                data += std::string(buffer, read_bytes);    // turn buffer into string type
-                if (data == "-1") {
-                    // client wants to disconnect, drop client
-                    std::cout << "Client disconnected" << std::endl;
-                    close(client_sock);
-                    break;
-                }
-                // check if accumulated input contains '\n' (i.e. message has been completed), 
-                // otherwise, continue receiving
-                if (data[data.length() - 1] == '\n') {      // Complete message recieved, proceed
-                    int k;
-                    Vector v;
-                    try {           // parse input, check validity of k and vector size
-                        k = std::stoi(data.substr(data.find_last_of(',') + 1));
-                        v = extractVector(data);
-                        checkUserInput(v.size(), database, k);
-                    }
-                    catch (std::ios_base::failure const &ex) {
-                        send(client_sock, "invalid input", 13, 0);
-                        data = "";
-                        continue;
-                    }
-                    catch (std::invalid_argument const &ex) {
-                        send(client_sock, "invalid input", 13, 0);
-                        data = "";
-                        continue;
-                    }
-                    // extract the distance function from the input
-                    string distanceFunction = data.substr(data.find_last_of(',') - 3, 3);
-                    // input has been parsed and checked, do knn on vector, and send classification
-                    string classification = database.knn(v, distanceFunction, k);
-                    int sent_bytes = send(client_sock, classification.c_str(),
-                            classification.length(), 0);
-                    data = "";
-                    if (sent_bytes < 0) {
-                        perror("Error sending to client");
-                    }
-                }
-            }
+        std::cout << "Accepted client" << std::endl;
+        serverArgs args;
+        args.client_sock = client_sock;
+        args.database = &database;
+        if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &args) < 0) {
+            perror("Could not create thread");
+            return 1;
         }
     }
+    return 0;
 }
 
 
