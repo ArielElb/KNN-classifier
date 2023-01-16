@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
+#include "SocketIO.h"
 
 #include <cstring>
 
@@ -189,7 +190,8 @@ void Server::run() {
     if (listen(sock, 4) < 0) {
         throw std::ios_base::failure("Error listening to a socket");
     }
-    pthread_t thread_id;
+    std::thread thread;
+    //pthread_t thread_id;
     // all is good, proceed to run server functionality
     while (true) {
         // initialize connection to next client
@@ -200,13 +202,9 @@ void Server::run() {
             throw std::ios_base::failure("Error accepting client");
         }
         std::cout << "Accepted client" << std::endl;
-        // create thread to handle client
-        ServerData data;
-        data.sock = client_sock;
-        data.server = this;
-        if (pthread_create(&thread_id, nullptr, connectionHandler, (void *) &data) < 0) {
-            throw std::ios_base::failure("Could not create thread");
-        }
+        SocketIO s(client_sock);
+        ConnectionHandler c;
+        std::thread clientThread(std::bind(c, s));
     }
 }
 
