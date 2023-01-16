@@ -5,8 +5,6 @@
 #ifndef ASS4_DOWNLOADCOMMAND_H
 #define ASS4_DOWNLOADCOMMAND_H
 #include "Command.h"
-#include "IO/DefaultIO.h"
-#include "Database.h"
 
 class DownloadCommand :public  Command {
     void execute() override;

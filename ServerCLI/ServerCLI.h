@@ -12,12 +12,11 @@
 #include "DisplayCommand.h"
 #include "DownloadCommand.h"
 #include <vector>
-#include "IO/DefaultIO.h"
-#include "Database.h"
+
 
 class ServerCLI {
 public:
-    explicit ServerCLI(DefaultIO *dio);
+    ServerCLI(DefaultIO *dio);
     virtual ~ServerCLI();
     void start();
 private:

@@ -7,8 +7,6 @@
 
 
 #include "Command.h"
-#include "IO/DefaultIO.h"
-#include "Database.h"
 
 class ClassifyCommand : public  Command {
     void execute() override;

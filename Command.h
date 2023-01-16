@@ -2,6 +2,7 @@
 #define ASS4_COMMAND_H
 
 #include "IO/DefaultIO.h"
+#include "Database.h"
 
 class Command {
 protected:
