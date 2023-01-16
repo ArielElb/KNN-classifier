@@ -15,7 +15,8 @@ class SettingsCommand : public  Command {
 
 public:
 //constractor
-    SettingsCommand(DefaultIO *pIo, Database *pDatabase) = default;
+    SettingsCommand(DefaultIO *pIo, Database *pDatabase);
+    Database *database;
 };
 
 

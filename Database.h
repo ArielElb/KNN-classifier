@@ -41,9 +41,9 @@ public:
 
     void setK(int k);
     void setDistanceFunction(string s);
-    int getK();
+    std::string getK();
 
-    string getDistanceFunction();
+    std::string getDistanceFunction();
 
     int size();
 

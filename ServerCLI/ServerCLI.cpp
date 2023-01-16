@@ -3,10 +3,7 @@
 //
 
 #include "ServerCLI.h"
-#include "SettingsCommand.h"
-#include "ClassifyCommand.h"
-#include "DisplayCommand.h"
-#include "DownloadCommand.h"
+
 #include "SocketIO.h"
 
 void ServerCLI::initCommands() {
@@ -23,9 +20,10 @@ ServerCLI::ServerCLI(DefaultIO *dio) {
 
 void ServerCLI::start() {
     int choice;
-    dio->write("Welcome to the Anomaly Detection Server.\nPlease choose an option:\n");
+    dio->write("Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
+               "file\n2. algorithm settings\n3. classify data\n4. display results\n5.download results");
     do {
-        std::string data  = dio->read();
+        std::string data = dio->read();
         try {
             choice = std::stoi(data);
         }

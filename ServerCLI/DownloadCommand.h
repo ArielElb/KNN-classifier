@@ -11,11 +11,11 @@
 class DownloadCommand :public  Command {
     void execute() override;
 
-    virtual ~DownloadCommand() = default;
-
+    Database *database;
 public:
 //constractor
-    DownloadCommand(DefaultIO *pIo, Database *pDatabase) = default;
+    DownloadCommand(DefaultIO *pIo, Database *pDatabase);
+    virtual ~DownloadCommand() = default;
 };
 
 
