@@ -111,7 +111,7 @@ Vector::Vector(vector<double> &vec) {
  * @param s takes in string to initVectors vector
  */
 Vector::Vector(std::string s) {
-    initFromString(s,);
+    initFromString(s);
 }
 
 /**

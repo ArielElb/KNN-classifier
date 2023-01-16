@@ -2,6 +2,9 @@
 // programming
 
 
+
+#include <utility>
+
 #include "Client.h"
 
 /**
@@ -78,7 +81,7 @@ int Client::connectSock() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
     if (inet_pton(AF_INET, ip, &serv_addr.sin_addr ) <= 0) {
-        throw ////TODO
+        throw; ////TODO
     }
     if ((client_fd = connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr))) < 0) {
         throw std::ios_base::failure("\nConnection Failed");
@@ -87,11 +90,11 @@ int Client::connectSock() {
 }
 
 Client::Client(std::string ipStr, std::string portStr) {
-    port = getPort(portStr);
+    port = getPort(std::move(portStr));
     if (port < 0) {
         throw std::ios_base::failure("Error getting port number");
     }
-    ip = portStr;
+    ip = ipStr.c_str();
 }
 
 /**
@@ -101,7 +104,7 @@ void Client::run(){
     // connect to socket
     int sock;
     try { 
-        sock = connectSock(port);
+        sock = connectSock();
     } catch (std::ios_base::failure const &ex) {
         throw ex;
     }
@@ -115,7 +118,7 @@ void Client::run(){
         if (a == "-1") {
             send(sock, a.c_str(), a.length(), 0);
             close(sock);
-            return 0;
+            return ;
         }
         // input validation
         try {
@@ -150,9 +153,8 @@ void Client::run(){
         }
         if (read_bytes < 0) {
             std::cout << "Error reading from socket" << std::endl;
-            return 1;
+            return ;
         }
         std::cout << fromServer << std::endl;       // print server response
    }
-   return 0;
 }

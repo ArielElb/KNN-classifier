@@ -7,12 +7,12 @@
 #include <fstream>
 #include <sstream>
 #include "Vector.h"
-#include "Distances.h"
-#include "CHB.h"
-#include "AUC.h"
-#include "MIN.h"
-#include "MAN.h"
-#include "CAN.h"
+#include "Distances/Distances.h"
+#include "Distances/CHB.h"
+#include "Distances/AUC.h"
+#include "Distances/MIN.h"
+#include "Distances/MAN.h"
+#include "Distances/CAN.h"
 #include "Comparator.h"
 #include "map"
 

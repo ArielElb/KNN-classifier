@@ -1,4 +1,4 @@
-#include "MAN.h"
+#include "Distances/MAN.h"
 
 void MAN::operator()(Vector &a, Vector &b) {
     Vector absDiff;

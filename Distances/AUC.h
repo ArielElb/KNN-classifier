@@ -1,7 +1,7 @@
 #ifndef ASS3_AUC_H
 #define ASS3_AUC_H
 #include "Vector.h"
-#include "Distances.h"
+#include "Distances/Distances.h"
 
 class AUC : public Distances {
     public:

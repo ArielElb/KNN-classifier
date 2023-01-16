@@ -1,8 +1,7 @@
 #ifndef ASS4_COMMAND_H
 #define ASS4_COMMAND_H
 
-
-#include "DefaultIO.h"
+#include "IO/DefaultIO.h"
 
 class Command {
 protected:
@@ -10,11 +9,11 @@ protected:
     std::string description;
 public:
     virtual void execute() = 0;
-    DefaultIO *getDio() const;
+//    DefaultIO *getDio() const;
 };
 
-DefaultIO *Command::getDio() const {
-    return dio;
-}
+//DefaultIO *Command::getDio() const {
+//    return dio;
+//}
 
 #endif

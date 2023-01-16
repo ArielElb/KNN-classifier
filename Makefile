@@ -15,15 +15,15 @@ Vector.o: Vector.cpp
 	g++ -std=c++11 -c Vector.cpp
 Database.o: Database.cpp
 	g++ -std=c++11 -c Database.cpp
-CHB.o: CHB.cpp
+CHB.o: Distances/CHB.cpp
 	g++ -std=c++11 -c CHB.cpp
-CAN.o: CAN.cpp
+CAN.o: Distances/CAN.cpp
 	g++ -std=c++11 -c CAN.cpp
-MAN.o: MAN.cpp
+MAN.o: Distances/MAN.cpp
 	g++ -std=c++11 -c MAN.cpp
-MIN.o: MIN.cpp
+MIN.o: Distances/MIN.cpp
 	g++ -std=c++11 -c MIN.cpp
-AUC.o: AUC.cpp
+AUC.o: Distances/AUC.cpp
 	g++ -std=c++11 -c AUC.cpp
 Comparator.o: Comparator.cpp
 	g++ -std=c++11 -c Comparator.cpp

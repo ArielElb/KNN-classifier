@@ -7,7 +7,7 @@
 
 
 #include "Command.h"
-#include "DefaultIO.h"
+#include "IO/DefaultIO.h"
 #include "Database.h"
 
 class ClassifyCommand : public  Command {
@@ -18,6 +18,7 @@ class ClassifyCommand : public  Command {
 public:
 //constractor
     ClassifyCommand(DefaultIO *pIo, Database *pDatabase);
+    Database *pDatabase;
 };
 
 #endif //ASS4_CLASSIFYCOMMAND_H

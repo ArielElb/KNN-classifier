@@ -5,7 +5,7 @@
 #ifndef ASS4_DOWNLOADFILE_H
 #define ASS4_DOWNLOADFILE_H
 #include "Command.h"
-#include "DefaultIO.h"
+#include "IO/DefaultIO.h"
 
 class DownloadFile : public Command {
     public:

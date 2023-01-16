@@ -183,6 +183,14 @@ void Database::initTrainVectors(string fileTrainVectors) {
 
 }
 
+std::string Database::getK() {
+    return std::to_string(this->k);
+}
+
+std::string Database::getDistanceFunction() {
+    return this -> distanceName;
+}
+
 
 
 

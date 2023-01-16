@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include "Vector.h"
 
 class Client {

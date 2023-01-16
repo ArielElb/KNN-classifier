@@ -1,22 +1,15 @@
 #include "Server.h"
-#include <sstream>
 #include <string>
 #include <algorithm>
 #include <iostream>
 #include <sys/socket.h>
-#include <stdio.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <pthread.h>
-#include "SocketIO.h"
-
+#include "IO/SocketIO.h"
+#include "ConnectionHandler.h"
 #include <cstring>
+#include <thread>
 
-struct {
-    Server* server;
-    int sock;
-} typedef ServerData;
+
 
 using std::string;
 
@@ -98,88 +91,11 @@ int Server::bindSock(int port) {
     return sock;
 }
 
-
-// Multithreaded client handling credited to "How to write a multithreaded server in C (threads, sockets)"
-// by Jacob Sorber, YouTube (https://www.youtube.com/watch?v=Pg_4Jz8ZIH4)
-void* connectionHandler(void* inputServer) {
-    ServerData* serverData = (ServerData*) inputServer;
-    Server* server = serverData->server;
-    int sock = serverData->sock;
-    std::string data;
-    // client connected established, accept input until client closes connection
-    while (true) {
-        //  clear buffer for safety
-        char buffer[4096] = {0};
-        int expected_data_len = sizeof(buffer);
-        // receive from client
-        int read_bytes = recv(sock, buffer, expected_data_len, 0);
-        if (read_bytes == 0) {
-            // nothing received, drop client
-            break;
-        } else if (read_bytes < 0) {
-            // receiving from client failed, drop client
-            std::cout << "Something went wrong receiving from the client." << std::endl;
-            break;
-        } else {
-            // input received, do work on input
-            data += std::string(buffer, read_bytes);    // turn buffer into string type
-            if (data == "-1") {
-                // client wants to disconnect, drop client
-                std::cout << "Client disconnected" << std::endl;
-                close(sock);
-                break;
-            }
-            // check if accumulated input contains '\n' (i.e. message has been completed),
-            // otherwise, continue receiving
-            if (data[data.length() - 1] == '\n') {      // Complete message recieved, proceed
-                int k;
-                Vector v;
-                try {           // parse input, check validity of k and vector size
-                    k = std::stoi(data.substr(data.find_last_of(',') + 1));
-                    v = Server::extractVector(data);
-                    Server::checkUserInput(v.size(), *server->getDatabase(), k);
-                }
-                catch (std::ios_base::failure const &ex) {
-                    send(sock, "invalid input", 13, 0);
-                    data = "";
-                    continue;
-                }
-                catch (std::invalid_argument const &ex) {
-                    send(sock, "invalid input", 13, 0);
-                    data = "";
-                    continue;
-                }
-                // extract the distance function from the input
-                string distanceFunction = data.substr(data.find_last_of(',') - 3, 3);
-                // input has been parsed and checked, do knn on vector, and send classification
-                string classification = server->getDatabase()->knn(v, distanceFunction, k);
-                int sent_bytes = send(sock, classification.c_str(),classification.length(), 0);
-                data = "";
-                if (sent_bytes < 0) {
-                    perror("Error sending to client");
-                }
-            }
-        }
-    }
-    return nullptr;
-}
-
-Server::Server(std::string portStr, std::string path) {
+Server::Server(std::string portStr) {
     port = extractPort(portStr);        // get int representation of port number
-    if (port < 0) {
-        throw std::ios_base::failure("Error getting port number");
-    }
-    database = new Database(path);  // create database object
-    try {
-        database->initVectors();
-    } catch (std::ios_base::failure const &ex) {
-        throw std::ios_base::failure("Error initializing database. Check input files.");
-    }
 }
 
 void Server::run() {
-    // Multithreaded client handling credited to "How to write a multithreaded server in C (threads, sockets)"
-    // by Jacob Sorber, YouTube (https://www.youtube.com/watch?v=Pg_3Jz8ZIH4)
     int sock;
     try {
         sock = bindSock(port);
@@ -203,15 +119,9 @@ void Server::run() {
         }
         std::cout << "Accepted client" << std::endl;
         SocketIO s(client_sock);
-        ConnectionHandler c;
-        std::thread clientThread(std::bind(c, s));
+        std::thread clientThread(ConnectionHandler(), &s);
     }
 }
-
-Database *Server::getDatabase() {
-    return database;
-}
-
 
 
 

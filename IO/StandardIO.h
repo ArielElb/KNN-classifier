@@ -10,7 +10,7 @@
 class StandardIO : public DefaultIO {
     public:
     std::string read() override;
-    void write(std::string text) override;
+//    void write(std::string text) override;
 
     // read a line from the user
     // write a line to the user

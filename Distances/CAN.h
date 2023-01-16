@@ -2,7 +2,7 @@
 #define ASS3_CAN_H
 
 #include "Vector.h"
-#include "Distances.h"
+#include "Distances/Distances.h"
 
 class CAN : public Distances {
     public:

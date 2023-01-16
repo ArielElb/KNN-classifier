@@ -2,7 +2,7 @@
 #define ASS3_CHB_H
 
 #include "Vector.h"
-#include "Distances.h"
+#include "Distances/Distances.h"
 
 class CHB : public Distances {
     public:

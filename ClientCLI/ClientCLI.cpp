@@ -3,7 +3,9 @@
 //
 
 #include "ClientCLI.h"
-#include "DefaultIO.h"
+
+#include <utility>
+#include "IO/DefaultIO.h"
 
 
 void ClientCLI::initCommands() {
@@ -13,7 +15,7 @@ void ClientCLI::initCommands() {
 
 ClientCLI::ClientCLI(DefaultIO *dio, std::string path) {
     this->dio = dio;
-    this->path = path;
+    this->path = std::move(path);
     initCommands();
 
 }

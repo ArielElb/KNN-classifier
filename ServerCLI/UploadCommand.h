@@ -5,12 +5,12 @@
 #ifndef ASS4_UPLOADCOMMAND_H
 #define ASS4_UPLOADCOMMAND_H
 #include "Command.h"
-#include "DefaultIO.h"
+#include "IO/DefaultIO.h"
 #include "Database.h"
 
 class UploadCommand : public  Command {
-    void execute() override;\
-    virtual ~UploadCommand();
+    void execute() override;
+    virtual ~UploadCommand() = default;
 
 public:
 //constractor

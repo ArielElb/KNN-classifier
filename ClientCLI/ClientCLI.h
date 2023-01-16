@@ -8,7 +8,7 @@
 #include "Command.h"
 #include "DisplayClassiffications.h"
 #include "DownloadFile.h"
-#include "FileCSVIO.h"
+#include "IO/FileCSVIO.h"
 #include <vector>
 
 class ClientCLI {

@@ -5,7 +5,7 @@
 #ifndef ASS4_DISPLAYCOMMAND_H
 #define ASS4_DISPLAYCOMMAND_H
 #include "Command.h"
-#include "DefaultIO.h"
+#include "IO/DefaultIO.h"
 #include "Database.h"
 
 class DisplayCommand : public  Command {

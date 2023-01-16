@@ -4,7 +4,7 @@
 
 #ifndef ASS4_CONNECTIONHANDLER_H
 #define ASS4_CONNECTIONHANDLER_H
-#include "SocketIO.h"
+#include "IO/SocketIO.h"
 #include "ServerCLI/ServerCLI.h"
 class ConnectionHandler {
     public:

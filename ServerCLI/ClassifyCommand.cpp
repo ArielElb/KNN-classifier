@@ -9,3 +9,9 @@ void ClassifyCommand::execute() {
 
 
 }
+
+ClassifyCommand::ClassifyCommand(DefaultIO *pIo, Database *pDatabase) {
+    this->dio = pIo;
+    this->pDatabase = pDatabase;
+
+}

@@ -12,7 +12,7 @@
 #include "DisplayCommand.h"
 #include "DownloadCommand.h"
 #include <vector>
-#include "DefaultIO.h"
+#include "IO/DefaultIO.h"
 #include "Database.h"
 
 class ServerCLI {

@@ -2,7 +2,7 @@
 #define ASS3_MAN_H
 
 #include "Vector.h"
-#include "Distances.h"
+#include "Distances/Distances.h"
 
 class MAN : public Distances {
 public:

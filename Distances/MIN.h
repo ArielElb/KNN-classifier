@@ -2,7 +2,7 @@
 #define ASS3_MIN_H
 
 #include "Vector.h"
-#include "Distances.h"
+#include "Distances/Distances.h"
 
 class MIN : public Distances {
 public:

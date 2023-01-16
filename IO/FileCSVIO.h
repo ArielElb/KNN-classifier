@@ -9,7 +9,7 @@
 
 class FileCSVIO : public DefaultIO {
 
-    void write(std::string text) override;
+//    void write(std::string text) override;
 
     std::string read() override;
 

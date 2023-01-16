@@ -2,10 +2,9 @@
 #define ASS4_SERVER_H
 #include <string>
 #include "Database.h"
-#include "Menu.h"
 #include "Vector.h"
-#include "SocketIO.h"
-#include "ServerCLI.h"
+#include "IO/SocketIO.h"
+#include "ServerCLI//ServerCLI.h"
 class Server{
     Database* database{};
     int port{};
@@ -18,6 +17,6 @@ public:
     static void checkUserInput(unsigned long vectorSize, Database &database, int k);
     Database* getDatabase();
     void run();
-    Server(std::string portStr, std::string pathIn);
+    Server(std::string portStr);
 };
 #endif //ASS4_SERVER_H
