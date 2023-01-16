@@ -12,7 +12,6 @@ using std::string;
  * @brief Vector class
  */
 class Vector {
-    
     bool classified = false;
     string classification;
     double distFromArg;
@@ -25,7 +24,7 @@ public:
     Vector(vector<double> &vec);
     Vector(string s);
 
-    void initFromString(const string& s);
+    void initFromString(const string& s, bool isTest);
     void init(std::vector<double> v);
 
     unsigned long size();

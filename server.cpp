@@ -170,7 +170,7 @@ Server::Server(std::string portStr, std::string path) {
     }
     database = new Database(path);  // create database object
     try {
-        database->init();
+        database->initVectors();
     } catch (std::ios_base::failure const &ex) {
         throw std::ios_base::failure("Error initializing database. Check input files.");
     }

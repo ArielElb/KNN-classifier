@@ -15,14 +15,10 @@ void ServerCLI::initCommands() {
     commands.push_back(new ClassifyCommand(dio, database));
     commands.push_back(new DisplayCommand(dio, database));
     commands.push_back(new DownloadCommand(dio, database));
-
 }
-
 ServerCLI::ServerCLI(DefaultIO *dio) {
     initCommands();
     this->dio = dio;
-    int k = 0;
-    std::string matrix;
 }
 
 void ServerCLI::start() {

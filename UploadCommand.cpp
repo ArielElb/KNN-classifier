@@ -4,23 +4,25 @@
 
 #include "UploadCommand.h"
 
+UploadCommand::UploadCommand(DefaultIO *dio, Database *database) {
+    this->dio = dio;
+}
+
 void UploadCommand::execute() {
+    this->database = new Database();
+    // upload a data file to the server
     dio->write("Please upload your local train CSV file.\n");
     /// data is t
     std::string fileContent = dio->read();
     try {
-        this->database = new Database(fileContent);
-        this->database->init();
-
-        dio->write("Upload complete.\n");
-    } catch (const std::exception& e) {
-        dio->write("invalid input\n");
-        return;
+        this->database->initTrainVectors(fileContent);
     }
-
-    // upload an unclassified csv file data file to the server
-    // the file will be classified by the server
-}
-UploadCommand::UploadCommand(DefaultIO *dio, Database *database) {
-    this->dio = dio;
+    catch (std::ios_base::failure const &ex) {
+    }
+    dio->write("Please upload your local test CSV file.\n");
+    try {
+        this->database->initTestVectors(fileContent);
+    }
+    catch (std::ios_base::failure const &ex) {
+    }
 }

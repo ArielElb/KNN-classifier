@@ -107,7 +107,7 @@ Vector::Vector(vector<double> &vec) {
 }
 /**
  * String constructor
- * @param s takes in string to init vector
+ * @param s takes in string to initVectors vector
  */
 Vector::Vector(std::string s) {
    initFromString(s); 
@@ -171,7 +171,7 @@ double Vector::getNumber(string b) {
  * @brief initialize vector from a string.
  * @param s - a string of vector values with/without classification suffix
  */
-void Vector::initFromString(const string& s) {
+void Vector::initFromString(const string& s, bool isTest) {
     std::istringstream sstream(s);
     char del = ',';
     string b;
@@ -198,9 +198,11 @@ void Vector::initFromString(const string& s) {
         }
     }
     // Set classification if applicable
+    if (!isTest){
     if (!(b[0] == '.' || isdigit(b[0]) || b[0] == '-')) {
         this->classification = b;
         this->classified = true;
+    }
     }
     this->v = vec;
     this->distFromArg = 0;
@@ -246,7 +248,7 @@ double Vector::get(int i) {
 }
 
 /**
- * @brief calculate the distances between two vectors
+ * @brief calculate the distances between two trainVectors
  * @param other - vector
  * @return - vector of distances
  */
@@ -289,7 +291,7 @@ string Vector::getClassification() const {
 }
 
 /**
- * check if the vectors size are valid
+ * check if the trainVectors size are valid
  * @param size  - size of another vector
  */
 void Vector::isInputValid(unsigned long size) {
