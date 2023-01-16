@@ -181,7 +181,7 @@ void Server::run() {
     // by Jacob Sorber, YouTube (https://www.youtube.com/watch?v=Pg_3Jz8ZIH4)
     int sock;
     try {
-        sock = bindSock(port);
+        sock = Server::bindSock(port);
     } catch (std::ios_base::failure const &ex) {
         throw std::ios_base::failure(ex.what());
     }
