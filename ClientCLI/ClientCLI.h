@@ -19,7 +19,7 @@ private:
     void initCommands();
     std::vector<std::pair<int,std::string>>;
 public:
-    explicit ClientCLI(DefaultIO *dio,std::string path);
+    explicit ClientCLI(DefaultIO *dio);
     virtual ~ClientCLI() = default;
     std::string path;
 

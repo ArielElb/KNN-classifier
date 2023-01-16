@@ -8,7 +8,8 @@ void DownloadFile::execute() {
 
 }
 
-DownloadFile::DownloadFile(DefaultIO *dio) {
-    this->dio = dio;
+DownloadFile::DownloadFile(DefaultIO *socketIO, DefaultIO *file) {
+    this->dio = socketIO;
+    this->fileIO = file;
 
 }

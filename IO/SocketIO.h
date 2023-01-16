@@ -35,7 +35,7 @@ public:
     explicit SocketIO(int sockfd) {
         this->sockfd = sockfd;
     }
-    ~SocketIO() = default;
+    virtual ~SocketIO()  = default;
 };
 
 

@@ -9,11 +9,7 @@ protected:
     std::string description;
 public:
     virtual void execute() = 0;
-//    DefaultIO *getDio() const;
 };
 
-//DefaultIO *Command::getDio() const {
-//    return dio;
-//}
 
 #endif

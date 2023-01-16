@@ -5,15 +5,13 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(ass4 serverMain.cpp server.cpp
-        Server.h Distances ServerCLI IO
+add_executable(ass4  Distances
+        ServerCLI IO
         Command.h
         Comparator.cpp
         Comparator.h
-        Database.cpp
-        Database.h
         Vector.cpp
-        Vector.h)
+        Vector.h ConnectionHandler.cpp serverMain.cpp server.cpp   Server.h)
 
 
-add_executable(client client.cpp IO ClientCLI)
+add_executable(client  clientMain.cpp client.cpp  Client.h  IO ClientCLI )

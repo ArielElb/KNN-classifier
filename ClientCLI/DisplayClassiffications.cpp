@@ -4,7 +4,8 @@
 
 #include "DisplayClassiffications.h"
 
-DisplayClassiffications::DisplayClassiffications(DefaultIO *dio) {
+DisplayClassiffications::DisplayClassiffications(DefaultIO *dio, DefaultIO *fileIO) {
+    this->fileIO = fileIO;
     this->dio = dio;
 }
 

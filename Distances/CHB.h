@@ -4,6 +4,7 @@
 #include "Vector.h"
 #include "Distances/Distances.h"
 
+
 class CHB : public Distances {
     public:
     void operator()(Vector &a, Vector &b) override;

@@ -7,7 +7,6 @@
 #include <fstream>
 #include <sstream>
 #include "Vector.h"
-#include "Distances/Distances.h"
 #include "Distances/CHB.h"
 #include "Distances/AUC.h"
 #include "Distances/MIN.h"

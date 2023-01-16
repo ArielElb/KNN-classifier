@@ -4,11 +4,21 @@
 
 #include "IO/FileCSVIO.h"
 
-void FileCSVIO::write(std::string text) {
 
+FileCSVIO::FileCSVIO(std::string path) {
+    this->path = path;
+    this->file.open(path);
 }
 void FileCSVIO::print(std::string text) {
 
 
+}
+
+std::string FileCSVIO::read() {
+    return std::string();
+}
+
+int FileCSVIO::write(std::string text) {
+    return 0;
 }
 

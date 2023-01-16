@@ -8,6 +8,7 @@
 #include <string>
 #include <algorithm>
 #include "Vector.h"
+#include "ClientCLI/ClientCLI.h"
 
 class Client {
     int port;

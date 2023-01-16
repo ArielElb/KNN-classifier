@@ -6,6 +6,7 @@
 #define ASS4_FILECSVIO_H
 
 #include "DefaultIO.h"
+#include <fstream>
 
 class FileCSVIO : public DefaultIO {
 
@@ -13,10 +14,14 @@ class FileCSVIO : public DefaultIO {
 
     std::string read() override;
 
+    int write(std::string text) override;
+
     void print(std::string text);
 
 public:
     FileCSVIO(std::string path);
+    int file;
+    std::string path;
 };
 
 

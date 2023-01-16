@@ -9,18 +9,18 @@
 
 
 void ClientCLI::initCommands() {
-    commands.push_back(new DisplayClassiffications(new FileCSVIO(path)));
-    commands.push_back(new DownloadFile(new FileCSVIO(path)));
+    commands.push_back(new DisplayClassiffications(new FileCSVIO(path), this->dio));
+    commands.push_back(new DownloadFile(new FileCSVIO(path),this->dio));
 }
 
-ClientCLI::ClientCLI(DefaultIO *dio, std::string path) {
-    this->dio = dio;
-    this->path = std::move(path);
-    initCommands();
-
-}
 
 void ClientCLI::start(int i) {
     commands[i]->execute();
+}
+
+ClientCLI::ClientCLI(DefaultIO *dio) {
+    this->dio = dio;
+    initCommands();
+
 }
 
