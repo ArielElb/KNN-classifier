@@ -132,7 +132,7 @@ void Database::initTestVectors(string fileTestVectors) {
         Vector v;
         // Init vector from the line, then push it into member Vector list
         try {
-            v.initFromString(line , true);
+            v.initFromString(line);
         }
         catch (std::ios_base::failure const &ex) {
             throw;
@@ -163,7 +163,7 @@ void Database::initTrainVectors(string fileTrainVectors) {
         Vector v;
         // Init vector from the line, then push it into member Vector list
         try {
-            v.initFromString(line , false);
+            v.initFromString(line);
         }
         catch (std::ios_base::failure const &ex) {
             throw;

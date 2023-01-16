@@ -24,7 +24,7 @@ public:
     Vector(vector<double> &vec);
     Vector(string s);
 
-    void initFromString(const string& s, bool isTest);
+    void initFromString(const string& s);
     void init(std::vector<double> v);
 
     unsigned long size();
