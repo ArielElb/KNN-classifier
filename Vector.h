@@ -12,7 +12,6 @@ using std::string;
  * @brief Vector class
  */
 class Vector {
-    
     bool classified = false;
     string classification;
     double distFromArg;

@@ -7,8 +7,11 @@
 
 #include "UploadCommand.h"
 #include "Command.h"
+#include "SettingsCommand.h"
+#include "ClassifyCommand.h"
+#include "DisplayCommand.h"
+#include "DownloadCommand.h"
 #include <vector>
-#include "Menu.h"
 #include "DefaultIO.h"
 #include "Database.h"
 

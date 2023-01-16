@@ -4,13 +4,19 @@
 
 #ifndef ASS4_FILECSVIO_H
 #define ASS4_FILECSVIO_H
+
 #include "DefaultIO.h"
 
 class FileCSVIO : public DefaultIO {
-    int openFile();
-    int closeFile();
-    std::string read();
-    void write();
+
+    void write(std::string text) override;
+
+    std::string read() override;
+
+    void print(std::string text);
+
+public:
+    FileCSVIO(std::string path);
 };
 
 

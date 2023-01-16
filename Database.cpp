@@ -10,52 +10,21 @@ using std::vector;
  * @param s file name
  * @param k k nearest
  */
-Database::Database(const string &s) {
+Database::Database() {
+    initDistances();
     // Create string vector for class parameter
-    this->fileContent = s;
-    this->distance = nullptr;
+    this->distance = this->map["EUC"];
+    this->distanceName = "EUC";
+    this-> k = 5;
+    this->trainVectors = vector<Vector>();
+    this->testVectors = vector<Vector>();
 }
 
 
-/**
- * @brief init the data base
- * @return void
- */
-void Database::init() {
-    // Iterate over member file list
-    std::istringstream sstream(fileContent);
-    char del = '\n';
-    string line;
-    // Read one line at a time
-    while (std::getline(sstream, line, del)) {
-        Vector v;
-        // Init vector from the line, then push it into member Vector list
-        try {
-            v.initFromString(line);
-        }
-        catch (std::ios_base::failure const &ex) {
-            throw;
-        }
-        this->vectors.push_back(v);
-    }
-    if (this->vectors.empty()) { // Exit if database contains no vectors
-        throw std::ios_base::failure("File contains no valid vectors. Exiting program");
-    } else if (this->vectors.size() > 1) { // Exit if database contains vectors of different sizes
-        for (Vector vec: this->vectors) {
-            if (vec.size() != this->vectors[0].size()) {
-                throw std::ios_base::failure(
-                        "File contains vectors of differing sizes. Exiting program");
-            }
-        }
-    }
-}
 
-/**
- * Print the database.
- */
 void Database::print() {
-    if (!this->vectors.empty()) {
-        for (Vector v: this->vectors) {
+    if (!this->trainVectors.empty()) {
+        for (Vector v: this->trainVectors) {
             v.print();
         }
     } else {
@@ -64,35 +33,33 @@ void Database::print() {
 }
 
 /**
- * @brief init the vectors distances by the correct function.
+ * @brief initVectors the trainVectors distances by the correct function.
  * @param funcIdent - function name
  * @param v - arg vector.
  */
 void Database::initVectors(Vector v) {
-    for (Vector &vec: this->vectors) {
+    for (Vector &vec: this->trainVectors) {
         (*distance)(vec, v);
     }
 }
-
 /**
  * @brief find the k nearest neighbors
  * @param v - argument vector
  * @param code - function name
  * @return string - classification
  */
-string Database::knn(Vector &v, const string &distanceFunction, int k) {
-    std::map<string, Distances *> map;
+string Database::knn(Vector &v,int k) {
+
     Comparator comparator;
     // Create a vector of pairs, where the first element is the distance,
     // and the second is the index of the vector
     vector<std::pair<double, string>> classifyKnearest;
-    initDistances(distanceFunction, map);
     Database::initVectors(v);
     // Sort the vector by distance function
-    std::sort(this->vectors.begin(), this->vectors.end(), comparator);
+    std::sort(this->trainVectors.begin(), this->trainVectors.end(), comparator);
     for (int i = 0; i < k; i++) {
-        classifyKnearest.emplace_back(this->vectors[i].getDistFromArg(),
-                                      this->vectors[i].getClassification());
+        classifyKnearest.emplace_back(this->trainVectors[i].getDistFromArg(),
+                                      this->trainVectors[i].getClassification());
     }
 
     std::map<string, int> classificationCount;
@@ -108,11 +75,7 @@ string Database::knn(Vector &v, const string &distanceFunction, int k) {
             classification = i.first;
         }
     }
-    // Delete the distances map
-    for (auto &i: map) {
-        delete i.second;
-    }
-    this -> distance = nullptr;
+
     return classification;
 }
 
@@ -121,7 +84,7 @@ string Database::knn(Vector &v, const string &distanceFunction, int k) {
  * @return size of vector
  */
 unsigned long Database::getVectorSize() {
-    return this->vectors[0].size();
+    return this->trainVectors[0].size();
 }
 
 /**
@@ -129,27 +92,98 @@ unsigned long Database::getVectorSize() {
  * @return size of database
  */
 int Database::size() {
-    return this->vectors.size();
+    return this->trainVectors.size();
 }
 
 /**
  * Create corresponding distance functor from string input and initialize the map of distances.
  * @param s - distance function name
  */
-void Database::initDistances(const string &s,std::map<string, Distances*> &map) {
-    map["AUC"] = new AUC();
-    map["CHB"] = new CHB();
-    map["CAN"] = new CAN();
-    map["MIN"] = new MIN();
-    map["MAN"] = new MAN();
-    // Check if the distance function is valid
-    if (map.find(s) != map.end()) {
-        this->distance = map[s];
-    }
-//    else {
-//        throw std::ios_base::failure("Invalid distance function. Exiting program");
-//    }
+void Database::initDistances() {
+    this->map["AUC"] = new AUC();
+    this->map["CHB"] = new CHB();
+    this->map["CAN"] = new CAN();
+    this->map["MIN"] = new MIN();
+    this->map["MAN"] = new MAN();
 }
+
+void Database::setK(int k) {
+    this->k = k;
+}
+void Database::setDistanceFunction(string s) {
+    this->distanceName = s;
+    this->distance = this->map[s];
+}
+
+Database::~Database() {
+    // Delete the distances map
+    for (auto &i: this->map) {
+        delete i.second;
+    }
+    this -> distance = nullptr;
+}
+
+void Database::initTestVectors(string fileTestVectors) {
+    std::istringstream stream(fileTestVectors);
+    char del = '\n';
+    string line;
+    // Read one line at a time
+    while (std::getline(stream, line, del)) {
+        Vector v;
+        // Init vector from the line, then push it into member Vector list
+        try {
+            v.initFromString(line);
+        }
+        catch (std::ios_base::failure const &ex) {
+            throw;
+        }
+        this->testVectors.push_back(v);
+    }
+    if (this->testVectors.empty()) { // Exit if database contains no trainVectors
+        throw std::ios_base::failure("File contains no valid trainVectors. Exiting program");
+    } else if (this->testVectors.size() > 1) { // Exit if database contains
+        for (Vector vec: this->testVectors) {
+            if (vec.size() != this->testVectors[0].size()) {
+                throw std::ios_base::failure(
+                        "File contains trainVectors of differing sizes. Exiting program");
+            }
+        }
+    }
+
+}
+
+void Database::initTrainVectors(string fileTrainVectors) {
+    // Read the file
+    // Iterate over member file list
+    std::istringstream sstream(fileTrainVectors);
+    char del = '\n';
+    string line;
+    // Read one line at a time
+    while (std::getline(sstream, line, del)) {
+        Vector v;
+        // Init vector from the line, then push it into member Vector list
+        try {
+            v.initFromString(line);
+        }
+        catch (std::ios_base::failure const &ex) {
+            throw;
+        }
+        this->trainVectors.push_back(v);
+    }
+    if (this->trainVectors.empty() ) { // Exit if database contains no trainVectors
+        throw std::ios_base::failure("File contains no valid trainVectors. Exiting program");
+    } else if (this->trainVectors.size() > 1) { // Exit if database contains
+        for (Vector vec: this->trainVectors) {
+            if (vec.size() != this->trainVectors[0].size()) {
+                throw std::ios_base::failure(
+                        "File contains trainVectors of differing sizes. Exiting program");
+            }
+        }
+    }
+
+}
+
+
 
 
 

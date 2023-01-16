@@ -22,26 +22,37 @@ using std::istream;
 class Database {
 
 private:
-    string fileContent;
-    vector<Vector> vectors;
+    std::map<string, Distances *> map;
+    vector<Vector> trainVectors;
+    vector<Vector> testVectors;
     Distances *distance;
+    string distanceName;
+    int k;
 
 public:
-    Database(const string &s);
-
-    void init();
+    explicit Database();
+    ~Database();
 
     void initVectors(Vector v);
 
-    void initDistances(const string &s, std::map<string, Distances *> &map);
+    void initDistances();
 
     unsigned long getVectorSize();
 
+    void setK(int k);
+    void setDistanceFunction(string s);
+    std::string getK();
+
+    std::string getDistanceFunction();
+
     int size();
 
-    string knn(Vector &v, const string &distanceFunction, int k);
+    string knn(Vector &v,int k);
 
     void print();
+
+    void initTrainVectors(string fileTrainVectors);
+    void initTestVectors(string fileTestVectors);
 };
 
 #endif
