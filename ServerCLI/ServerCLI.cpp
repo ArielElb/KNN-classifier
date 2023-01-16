@@ -4,7 +4,6 @@
 
 #include "ServerCLI.h"
 
-#include "IO/SocketIO.h"
 
 void ServerCLI::initCommands() {
     commands.push_back(new UploadCommand(dio, database));

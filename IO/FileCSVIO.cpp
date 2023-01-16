@@ -7,7 +7,6 @@
 
 FileCSVIO::FileCSVIO(std::string path) {
     this->path = path;
-    this->file.open(path);
 }
 void FileCSVIO::print(std::string text) {
 

@@ -4,9 +4,7 @@
 
 
 #include <utility>
-
 #include "Client.h"
-#include "IO/SocketIO.h"
 
 /**
  * Checks validity of inputed distance function. Throws exception if invalid
@@ -82,9 +80,9 @@ int Client::connectSock() {
     }
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
-    if (inet_pton(AF_INET, ip, &serv_addr.sin_addr) <= 0) {
-        throw; ////TODO
-    }
+//    if (inet_pton(AF_INET, ip, &serv_addr.sin_addr) <= 0) {
+//        throw; ////TODO
+//    }
     if ((client_fd = connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr))) < 0) {
         throw std::ios_base::failure("\nConnection Failed");
     }
@@ -116,7 +114,6 @@ void Client::run() {
     int input;
     // cin >> input;
     std::cin >> input;
-    clientCLI.start(input);
+    clientCLI.start(input - 1);
     }
-}
 

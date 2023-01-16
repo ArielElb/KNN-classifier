@@ -17,7 +17,7 @@ private:
     std::vector<Command *> commands;
     // vector <lineNumber, classification>
     void initCommands();
-    std::vector<std::pair<int,std::string>>;
+//    std::vector<std::pair<int,std::string>>;
 public:
     explicit ClientCLI(DefaultIO *dio);
     virtual ~ClientCLI() = default;

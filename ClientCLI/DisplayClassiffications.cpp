@@ -10,5 +10,5 @@ DisplayClassiffications::DisplayClassiffications(DefaultIO *dio, DefaultIO *file
 }
 
 void DisplayClassiffications::execute() {
-
+    std::cout << "DisplayClassiffications" << std::endl;
 }

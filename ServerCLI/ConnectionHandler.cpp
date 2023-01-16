@@ -5,8 +5,6 @@
 #include "ConnectionHandler.h"
 
 
-ConnectionHandler::ConnectionHandler() = default;
-
 void ConnectionHandler::operator()(DefaultIO *socketIO) {
     ServerCLI serverCLI(socketIO);
     serverCLI.start();

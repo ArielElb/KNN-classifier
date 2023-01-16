@@ -4,8 +4,7 @@
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include "IO/SocketIO.h"
-#include "ConnectionHandler.h"
+#include "ServerCLI//ConnectionHandler.h"
 #include <cstring>
 #include <thread>
 
@@ -119,7 +118,8 @@ void Server::run() {
         }
         std::cout << "Accepted client" << std::endl;
         SocketIO s(client_sock);
-        std::thread clientThread(ConnectionHandler(), &s);
+        ConnectionHandler c;
+        std::thread clientThread(c, &s);
     }
 }
 

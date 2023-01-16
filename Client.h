@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <cstdio>
 #include <sys/socket.h>
+#include "IO/SocketIO.h"
 #include <unistd.h>
 #include <iostream>
 #include <string>
