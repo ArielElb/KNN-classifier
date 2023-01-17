@@ -13,7 +13,13 @@ class FileIO : public DefaultIO {
     std::string path;
 public:
     FileIO(std::string path);
+    /*
+     * returns entire content of file in one string
+     */
     std::string read();
+    /*
+     * Write string as a new line at the end of the file
+     */
     int write(std::string text);
 };
 
