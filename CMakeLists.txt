@@ -33,5 +33,5 @@ add_executable(ass4 serverMain.cpp ServerCLI/ConnectionHandler.cpp ServerCLI/Con
 
 
 add_executable(client clientMain.cpp  client.cpp Client.h IO/DefaultIO.h IO/SocketIO.h IO/SocketIO.cpp
-        ClientCLI/ClientCLI.cpp ClientCLI/ClientCLI.h  IO/FileCSVIO.h  Vector.cpp Vector.h ClientCLI/DisplayClassiffications.cpp
- ClientCLI/DownloadFile.cpp ClientCLI/DownloadFile.h IO/FileCSVIO.cpp IO/FileCSVIO.h)
+        ClientCLI/ClientCLI.cpp ClientCLI/ClientCLI.h IO/FileIO.h Vector.cpp Vector.h ClientCLI/DisplayClassiffications.cpp
+ ClientCLI/DownloadFile.cpp ClientCLI/DownloadFile.h IO/FileIO.cpp IO/FileIO.h)

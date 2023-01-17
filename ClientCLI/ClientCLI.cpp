@@ -9,8 +9,8 @@
 
 
 void ClientCLI::initCommands() {
-    commands.push_back(new DisplayClassiffications(new FileCSVIO(path), this->dio));
-    commands.push_back(new DownloadFile(new FileCSVIO(path),this->dio));
+    commands.push_back(new DisplayClassiffications(new FileIO(path), this->dio));
+    commands.push_back(new DownloadFile(new FileIO(path),this->dio));
 }
 
 
