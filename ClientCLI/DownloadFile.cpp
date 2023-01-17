@@ -6,10 +6,10 @@
 
 void DownloadFile::execute() {
 
+
 }
 
-DownloadFile::DownloadFile(DefaultIO *socketIO, DefaultIO *file) {
+DownloadFile::DownloadFile(DefaultIO *socketIO) {
     this->dio = socketIO;
-    this->fileIO = file;
 
 }

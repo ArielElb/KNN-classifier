@@ -30,7 +30,7 @@ void ServerCLI::start() {
             choice = std::stoi(input);
             std::cout << choice << std::endl;
             // check if the choice is valid
-            // stack
+
             std::cin.get();
 
 
