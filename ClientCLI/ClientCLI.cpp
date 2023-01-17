@@ -21,9 +21,7 @@ void ClientCLI::start() {
     std::cin >> input;
     string s = std::to_string(input);
     this->dio->write(s);
-
     std::cin >> input;
-
 }
 
 ClientCLI::ClientCLI(DefaultIO *dio) {

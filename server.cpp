@@ -107,7 +107,7 @@ void Server::run() {
     }
     //pthread_t thread_id;
     // all is good, proceed to run server functionality
-//    std::vector <std::thread> threads;
+    std::vector <std::thread> threads;
     while (true) {
         // initialize connection to next client
         struct sockaddr_in client_sin{};
@@ -119,10 +119,7 @@ void Server::run() {
         std::cout << "Accepted client" << std::endl;
         SocketIO clientSock(client_sock);
         ConnectionHandler c;
-        c(&clientSock);
-
-//        threads.emplace_back(std::thread(c));
-
+       threads.emplace_back(std::thread(c, &clientSock));
     }
 }
 
