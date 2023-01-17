@@ -9,9 +9,11 @@
 
 
 void ClientCLI::initCommands() {
+
     commands.push_back(new UploadFile(dio));
     commands.push_back(new DisplayClassiffications(this->dio));
     commands.push_back(new DownloadFile(this->dio));
+
 }
 
 
