@@ -14,7 +14,7 @@
 class Client {
     int port;
     const char *ip;
-    struct sockaddr_in serv_addr{};
+//    struct sockaddr_in serv_addr{};
     void checkDistanceFunc(std::string &distance);
     void checkValidInput(std::string &input);
     int getPort(string portStr);
