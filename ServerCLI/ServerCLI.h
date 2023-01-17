@@ -20,10 +20,10 @@ public:
     virtual ~ServerCLI();
     void start();
 private:
-    Database *database{};
-    DefaultIO *dio;
-    std::vector<Command *> commands;
+    Database *database = nullptr;
+    std::vector<Command *> commands = {};
     void initCommands();
+    DefaultIO *dio = nullptr;
 };
 
 #endif //ASS4_SERVERCLI_H

@@ -13,7 +13,7 @@
 
 class ClientCLI {
 private:
-    DefaultIO* dio;
+    DefaultIO* dio = nullptr;
     std::vector<Command *> commands;
     // vector <lineNumber, classification>
     void initCommands();
@@ -23,7 +23,7 @@ public:
     virtual ~ClientCLI() = default;
     std::string path;
 
-    void start(int i);
+    void start();
 };
 
 

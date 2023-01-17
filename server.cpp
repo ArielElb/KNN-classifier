@@ -105,9 +105,9 @@ void Server::run() {
     if (listen(sock, 4) < 0) {
         throw std::ios_base::failure("Error listening to a socket");
     }
-    std::thread thread;
     //pthread_t thread_id;
     // all is good, proceed to run server functionality
+    std::vector <std::thread> threads;
     while (true) {
         // initialize connection to next client
         struct sockaddr_in client_sin{};
@@ -117,9 +117,9 @@ void Server::run() {
             throw std::ios_base::failure("Error accepting client");
         }
         std::cout << "Accepted client" << std::endl;
-        SocketIO s(client_sock);
+        SocketIO clientSock(client_sock);
         ConnectionHandler c;
-        std::thread clientThread(c, &s);
+       threads.emplace_back(std::thread(c, &clientSock));
     }
 }
 

@@ -14,5 +14,4 @@ void SettingsCommand::execute() {
 SettingsCommand::SettingsCommand(DefaultIO *pIo, Database *pDatabase) {
     this->dio = pIo;
     this->database = pDatabase;
-
 }
