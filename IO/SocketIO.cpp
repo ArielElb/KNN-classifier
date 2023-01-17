@@ -24,7 +24,8 @@ std::string SocketIO::read() {
             }
             // check if accumulated input contains '\n' (i.e. message has been completed), 
             // otherwise, continue receiving
-            if (data[data.length() - 1] == '\t') {
+            if (data[data.length() - 1] == '\r') {
+                data = data.substr(0, data.length() - 1);
                 break;
             }
         }
@@ -34,7 +35,7 @@ std::string SocketIO::read() {
 
 int SocketIO::write(std::string s) {
     // send message to client
-    s = s + "\t";
+    s = s + "\r";
     int sent_bytes = send(this->sockfd,s.c_str(), s.length() , 0);
     if (sent_bytes < 0) {
         // sending to client failed, drop client

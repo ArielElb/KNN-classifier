@@ -3,7 +3,7 @@
 
 #include "IO/DefaultIO.h"
 #include "Database.h"
-
+#include  "IO/FileIO.h"
 class Command {
 protected:
     DefaultIO *dio{};

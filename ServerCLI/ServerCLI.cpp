@@ -30,15 +30,10 @@ void ServerCLI::start() {
             choice = std::stoi(input);
             std::cout << choice << std::endl;
             // check if the choice is valid
-
-            std::cin.get();
-
-
         }
         catch (std::exception &e) {
             dio->write("Not a valid input");
         }
-
         switch (choice) {
             case 1:
                 commands[0]->execute();
