@@ -6,6 +6,7 @@
 
 
 void ServerCLI::initCommands() {
+
     commands.push_back(new UploadCommand(dio, database));
     commands.push_back(new SettingsCommand(dio, database));
     commands.push_back(new ClassifyCommand(dio, database));
@@ -13,22 +14,30 @@ void ServerCLI::initCommands() {
     commands.push_back(new DownloadCommand(dio, database));
 }
 ServerCLI::ServerCLI(DefaultIO *dio) {
-    initCommands();
     this->dio = dio;
+    initCommands();
 }
 
 void ServerCLI::start() {
     int choice;
-    dio->write("Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
-               "file\n2. algorithm settings\n3. classify data\n4. display results\n5.download results");
     do {
-        std::string data = dio->read();
+        std::string  menu = "Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
+                            "file\n2. algorithm settings\n3. classify data\n4. display results\n5.download results";
         try {
-            choice = std::stoi(data);
+            this->dio->write(menu);
+            // read the choice from the user
+            std::string input = this->dio->read();
+            choice = std::stoi(input);
+            std::cout << choice << std::endl;
+            // check if the choice is valid
+            std::cin.get();
+
+
         }
         catch (std::exception &e) {
             dio->write("Not a valid input");
         }
+
         switch (choice) {
             case 1:
                 commands[0]->execute();

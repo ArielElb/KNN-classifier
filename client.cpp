@@ -111,9 +111,6 @@ void Client::run() {
     // get input from user
     SocketIO socketIO(sock);
     ClientCLI clientCLI(&socketIO);
-    int input;
-    // cin >> input;
-    std::cin >> input;
-    clientCLI.start(input - 1);
+    clientCLI.start();
     }
 

@@ -14,8 +14,16 @@ void ClientCLI::initCommands() {
 }
 
 
-void ClientCLI::start(int i) {
-    commands[i]->execute();
+void ClientCLI::start() {
+    int input;
+    string str = this->dio->read();
+    std::cout << str << std::endl;
+    std::cin >> input;
+    string s = std::to_string(input);
+    this->dio->write(s);
+
+    std::cin >> input;
+
 }
 
 ClientCLI::ClientCLI(DefaultIO *dio) {

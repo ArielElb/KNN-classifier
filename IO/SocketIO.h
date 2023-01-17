@@ -32,10 +32,10 @@ public:
     std::string read() override;
     int write(std::string string) override;
 
-    explicit SocketIO(int sockfd) {
+     SocketIO(int sockfd) {
         this->sockfd = sockfd;
     }
-    virtual ~SocketIO()  = default;
+     virtual ~SocketIO()  = default;
 };
 
 
