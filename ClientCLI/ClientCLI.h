@@ -6,15 +6,17 @@
 #define ASS4_CLIENTCLI_H
 
 #include "Command.h"
+#include "UploadFile.h"
 #include "DisplayClassiffications.h"
 #include "DownloadFile.h"
 #include "IO/FileIO.h"
 #include <vector>
+#include <thread>
+#include <chrono>
 
 class ClientCLI {
 private:
     DefaultIO* dio = nullptr;
-    DefaultIO* fileIO = nullptr;
     std::vector<Command *> commands;
     // vector <lineNumber, classification>
     void initCommands();
