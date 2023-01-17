@@ -14,7 +14,7 @@ public:
 
     virtual ~DownloadFile() = default;
 
-    DownloadFile(DefaultIO *socketIO, DefaultIO *file);
+    DownloadFile(DefaultIO *socketIO);
 
 private:
     DefaultIO *fileIO;

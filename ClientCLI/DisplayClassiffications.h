@@ -13,8 +13,7 @@ class DisplayClassiffications : public Command {
     virtual ~DisplayClassiffications() = default;
 
 public:
-    explicit DisplayClassiffications(DefaultIO *dio, DefaultIO *pIo);
-    DefaultIO *fileIO;
+    explicit DisplayClassiffications(DefaultIO *dio);
 };
 
 

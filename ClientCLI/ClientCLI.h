@@ -14,6 +14,7 @@
 class ClientCLI {
 private:
     DefaultIO* dio = nullptr;
+    DefaultIO* fileIO = nullptr;
     std::vector<Command *> commands;
     // vector <lineNumber, classification>
     void initCommands();
