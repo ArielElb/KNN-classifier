@@ -20,7 +20,7 @@ public:
     virtual ~ServerCLI();
     void start();
 private:
-    Database *database = nullptr;
+    Database *database = new Database();
     std::vector<Command *> commands = {};
     void initCommands();
     DefaultIO *dio = nullptr;

@@ -6,12 +6,11 @@
 
 
 void ServerCLI::initCommands() {
-
-    commands.push_back(new UploadCommand(dio, database));
-    commands.push_back(new SettingsCommand(dio, database));
-    commands.push_back(new ClassifyCommand(dio, database));
-    commands.push_back(new DisplayCommand(dio, database));
-    commands.push_back(new DownloadCommand(dio, database));
+    commands.push_back(new UploadCommand(dio,this->database));
+    commands.push_back(new SettingsCommand(dio, this->database));
+    commands.push_back(new ClassifyCommand(dio, this->database));
+    commands.push_back(new DisplayCommand(dio, this->database));
+    commands.push_back(new DownloadCommand(dio, this->database));
 }
 ServerCLI::ServerCLI(DefaultIO *dio) {
     this->dio = dio;
@@ -30,15 +29,10 @@ void ServerCLI::start() {
             choice = std::stoi(input);
             std::cout << choice << std::endl;
             // check if the choice is valid
-            // stack
-            std::cin.get();
-
-
         }
         catch (std::exception &e) {
             dio->write("Not a valid input");
         }
-
         switch (choice) {
             case 1:
                 commands[0]->execute();

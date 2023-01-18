@@ -9,24 +9,54 @@
 
 
 void ClientCLI::initCommands() {
-    commands.push_back(new DisplayClassiffications(new FileIO(path), this->dio));
-    commands.push_back(new DownloadFile(new FileIO(path),this->dio));
     commands.push_back(new UploadFile(this->dio));
-    commands.push_back(new AlgorithmSettings(this->dio));
+    // temp
+    commands.push_back(new DownloadFile(this->dio));
+    commands.push_back(new ClassificationKnn(this->dio));
     commands.push_back(new DisplayClassiffications(this->dio));
     commands.push_back(new DownloadFile(this->dio));
 }
 
 
 void ClientCLI::start() {
-    int input;
-    string str = this->dio->read();
-    std::cout << str << std::endl;
-    std::cin >> input;
-    string s = std::to_string(input);
-    this->dio->write(s);
-    std::cin >> input;
+    int input = 0;
+    std::string menu;
+    do {
+        input = 0;
+        //read menu from user
+        menu = this->dio->read();
+        // print the menu
+
+        std::cout << menu << std::endl;
+        // read the choice from the user
+
+        std::cin >> input;
+
+
+        string s = std::to_string(input);
+        this->dio->write(s);
+
+        switch (input) {
+            case 1:
+                commands[0]->execute();
+                break;
+            case 2:
+                commands[1]->execute();
+            case 3:
+                commands[2]->execute();
+                break;
+            case 4:
+                commands[3]->execute();
+                break;
+            case 8:
+                break;
+            default:
+                dio->write("Not a valid input");
+                break;
+        }
+    } while (input != 8);
 }
+
 
 ClientCLI::ClientCLI(DefaultIO *dio) {
     this->dio = dio;

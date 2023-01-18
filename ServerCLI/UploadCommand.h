@@ -5,6 +5,8 @@
 #ifndef ASS4_UPLOADCOMMAND_H
 #define ASS4_UPLOADCOMMAND_H
 #include "Command.h"
+#include <thread>
+
 
 class UploadCommand : public  Command {
     void execute() override;
