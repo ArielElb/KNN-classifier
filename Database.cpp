@@ -16,11 +16,11 @@ Database::Database() {
     // Create string vector for class parameter
     this->distance = this->map["EUC"];
     this->distanceName = "EUC";
-    this-> k = 5;
+    this->k = 5;
+    this -> classifications = "";
     this->trainVectors = vector<Vector>();
     this->testVectors = vector<Vector>();
 }
-
 
 
 void Database::print() {
@@ -43,41 +43,51 @@ void Database::initVectors(Vector v) {
         (*distance)(vec, v);
     }
 }
+
 /**
  * @brief find the k nearest neighbors
  * @param v - argument vector
  * @param code - function name
  * @return string - classification
  */
-string Database::knn(Vector &v,int k) {
-
+string Database::knn() {
+    string toServer = "";
+    int i = 1;
+//    vector<std::pair<double, string>> lineAndClassifications;
+    string classification;
     Comparator comparator;
     // Create a vector of pairs, where the first element is the distance,
     // and the second is the index of the vector
-    vector<std::pair<double, string>> classifyKnearest;
-    Database::initVectors(v);
-    // Sort the vector by distance function
-    std::sort(this->trainVectors.begin(), this->trainVectors.end(), comparator);
-    for (int i = 0; i < k; i++) {
-        classifyKnearest.emplace_back(this->trainVectors[i].getDistFromArg(),
-                                      this->trainVectors[i].getClassification());
-    }
 
-    std::map<string, int> classificationCount;
-    for (int i = 0; i < k; i++) {
-        classificationCount[classifyKnearest[i].second]++;
-    }
-    // Find the classification with the most votes
-    int max = 0;
-    string classification;
-    for (auto &i: classificationCount) {
-        if (i.second > max) {
-            max = i.second;
-            classification = i.first;
+    for (Vector &vec: this->trainVectors) {
+        std::map<string, int> classificationCount;
+        vector<std::pair<double, string>> classifyKnearest;
+
+
+        Database::initVectors(vec);
+        // Sort the vector by distance function
+        std::sort(this->trainVectors.begin(), this->trainVectors.end(), comparator);
+        for (int j = 0; j < this->k; j++) {
+            classifyKnearest.emplace_back(this->trainVectors[j].getDistFromArg(),
+                                          this->trainVectors[j].getClassification());
         }
-    }
 
-    return classification;
+        for (int j = 0; j <this->k; j++) {
+            classificationCount[classifyKnearest[j].second]++;
+        }
+        // Find the classification with the most votes
+        int max = 0;
+        for (auto &j: classificationCount) {
+            if (j.second > max) {
+                max = j.second;
+                classification = j.first;
+            }
+        }
+        toServer +=  std::to_string(i) + " " + classification + "\n";
+        i++;
+    }
+    this->classifications = toServer;
+    return toServer;
 }
 
 /**
@@ -101,7 +111,7 @@ int Database::size() {
  * @param s - distance function name
  */
 void Database::initDistances() {
-    this->map["AUC"] = new AUC();
+    this->map["EUC"] = new AUC();
     this->map["CHB"] = new CHB();
     this->map["CAN"] = new CAN();
     this->map["MIN"] = new MIN();
@@ -111,6 +121,7 @@ void Database::initDistances() {
 void Database::setK(int k) {
     this->k = k;
 }
+
 void Database::setDistanceFunction(string s) {
     this->distanceName = s;
     this->distance = this->map[s];
@@ -121,7 +132,7 @@ Database::~Database() {
     for (auto &i: this->map) {
         delete i.second;
     }
-    this -> distance = nullptr;
+    this->distance = nullptr;
 }
 
 void Database::initTestVectors(string fileTestVectors) {
@@ -154,6 +165,7 @@ void Database::initTestVectors(string fileTestVectors) {
 }
 
 void Database::initTrainVectors(string fileTrainVectors) {
+
     // Read the file
     // Iterate over member file list
     std::istringstream sstream(fileTrainVectors);
@@ -171,7 +183,7 @@ void Database::initTrainVectors(string fileTrainVectors) {
         }
         this->trainVectors.push_back(v);
     }
-    if (this->trainVectors.empty() ) { // Exit if database contains no trainVectors
+    if (this->trainVectors.empty()) { // Exit if database contains no trainVectors
         throw std::ios_base::failure("File contains no valid trainVectors. Exiting program");
     } else if (this->trainVectors.size() > 1) { // Exit if database contains
         for (Vector vec: this->trainVectors) {
@@ -189,10 +201,26 @@ std::string Database::getK() {
 }
 
 std::string Database::getDistanceFunction() {
-    return this -> distanceName;
+    return this->distanceName;
+}
+
+bool Database::isFilesUnloaded() {
+    if (this->trainVectors.empty() || this->testVectors.empty()) {
+        return true;
+    }
+    return false;
 }
 
 
+
+std::string Database::getClassfications() {
+    return this->classifications;
+}
+
+void Database::setClassfications(const char *string) {
+    this->classifications = string;
+
+}
 
 
 

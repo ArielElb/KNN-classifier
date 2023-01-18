@@ -26,6 +26,9 @@ private:
     vector<Vector> testVectors;
     Distances *distance;
     string distanceName;
+    std::string classifications;
+
+
     int k;
 
 public:
@@ -46,12 +49,20 @@ public:
 
     int size();
 
-    string knn(Vector &v,int k);
 
     void print();
 
     void initTrainVectors(string fileTrainVectors);
     void initTestVectors(string fileTestVectors);
+
+    string knn();
+
+    bool isFilesUnloaded();
+
+
+    std::string getClassfications();
+
+    void setClassfications(const char *string);
 };
 
 #endif

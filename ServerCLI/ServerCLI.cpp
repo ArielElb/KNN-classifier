@@ -6,12 +6,11 @@
 
 
 void ServerCLI::initCommands() {
-
-    commands.push_back(new UploadCommand(dio, database));
-    commands.push_back(new SettingsCommand(dio, database));
-    commands.push_back(new ClassifyCommand(dio, database));
-    commands.push_back(new DisplayCommand(dio, database));
-    commands.push_back(new DownloadCommand(dio, database));
+    commands.push_back(new UploadCommand(dio,this->database));
+    commands.push_back(new SettingsCommand(dio, this->database));
+    commands.push_back(new ClassifyCommand(dio, this->database));
+    commands.push_back(new DisplayCommand(dio, this->database));
+    commands.push_back(new DownloadCommand(dio, this->database));
 }
 ServerCLI::ServerCLI(DefaultIO *dio) {
     this->dio = dio;
