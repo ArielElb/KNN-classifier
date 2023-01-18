@@ -1,11 +1,8 @@
-//
-// Created by arie1 on 1/16/2023.
-//
-
 #ifndef ASS4_CLIENTCLI_H
 #define ASS4_CLIENTCLI_H
 
 #include "Command.h"
+#include "AlgorithmSettings.h"
 #include "UploadFile.h"
 #include "DisplayClassiffications.h"
 #include "DownloadFile.h"

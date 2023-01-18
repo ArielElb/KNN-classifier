@@ -34,34 +34,21 @@ private:
 public:
     explicit Database();
     ~Database();
-
     void initVectors(Vector v);
-
     void initDistances();
-
     unsigned long getVectorSize();
-
+    bool isKValid(int k);
     void setK(int k);
     void setDistanceFunction(string s);
     std::string getK();
-
     std::string getDistanceFunction();
-
     int size();
-
-
     void print();
-
     void initTrainVectors(string fileTrainVectors);
     void initTestVectors(string fileTestVectors);
-
     string knn();
-
     bool isFilesUnloaded();
-
-
     std::string getClassfications();
-
     void setClassfications(const char *string);
 };
 

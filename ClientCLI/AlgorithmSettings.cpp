@@ -2,7 +2,13 @@
 
 void AlgorithmSettings::execute() {
     // receive message from server
-    std::string message = this->dio->read();
+    std::string message;
+    try {
+        message = this->dio->read();
+    } catch (...) {
+        std::cout << "Error reading from server\n";
+        return;
+    }
     // print to screen
     std::cout << message << std::endl;
     // get response from user
@@ -12,7 +18,14 @@ void AlgorithmSettings::execute() {
     if (userResponse == "") {
         return;
     }
-    std::string input;
-    std::cin >> input;
-
+    try {
+        message = this->dio->read();
+    } catch (...) {
+        std::cout << "Error reading from server\n";
+        return;
+    }
+    if (message != "") {
+        std::cout << message;
+    }
+    return;
 }

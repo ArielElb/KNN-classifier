@@ -1,7 +1,3 @@
-//
-// Created by arie1 on 1/14/2023.
-//
-
 #include "SettingsCommand.h"
 
 void SettingsCommand::execute() {
@@ -13,7 +9,33 @@ void SettingsCommand::execute() {
     if (userResponse == "") {
         return;
     }
-
+    bool validK = true;
+    bool validMetric = true;
+    int k;
+    std::string returnMessage = "";
+    std::istringstream sstream(userResponse);
+    string b;
+    std::getline(sstream, b, ' ');
+    for (char i : b) {
+        if (!isdigit(i)) {
+            returnMessage += "invalid value for k\n";
+            validK = false;
+            break;
+        }
+    }
+    if (validK) {
+        k = std::stoi(b);
+    }
+    std::getline(sstream, b);
+    if (!checkDistanceFunc(b)) {
+       returnMessage += "invalid value for metric\n";
+       validMetric = false;
+    }
+    if (validK && validMetric) {
+        this->database->isKValid(k);
+        this->database->setDistanceFunction(b);
+    }
+    this->dio->write(returnMessage);
 }
 
 SettingsCommand::SettingsCommand(DefaultIO *pIo, Database *pDatabase) {

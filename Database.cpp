@@ -122,6 +122,10 @@ void Database::setK(int k) {
     this->k = k;
 }
 
+bool Database::isKValid(int k) {
+    return k <= Database::size();
+}
+
 void Database::setDistanceFunction(string s) {
     this->distanceName = s;
     this->distance = this->map[s];

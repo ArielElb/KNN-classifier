@@ -6,6 +6,7 @@
 #define ASS4_SETTINGSCOMMAND_H
 #include "Command.h"
 #include "Database.h"
+#include "util.h"
 
 class SettingsCommand : public  Command {
     Database *database;
