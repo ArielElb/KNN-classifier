@@ -8,14 +8,11 @@
 #include "Database.h"
 
 class SettingsCommand : public  Command {
-    void execute() override;
-
-    virtual ~SettingsCommand() = default;
-
-public:
-//constractor
-    SettingsCommand(DefaultIO *pIo, Database *pDatabase);
     Database *database;
+public:
+    SettingsCommand(DefaultIO *pIo, Database *pDatabase);
+    virtual ~SettingsCommand() = default;
+    void execute() override;
 };
 
 

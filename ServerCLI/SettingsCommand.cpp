@@ -9,6 +9,11 @@ void SettingsCommand::execute() {
     // send the current settings to the client
     this->dio->write("The current KNN parameters are:" + std::string(this->database->getK()) +
     " " + this->database->getDistanceFunction());
+    std::string userResponse = this->dio->read();
+    if (userResponse == "") {
+        return;
+    }
+
 }
 
 SettingsCommand::SettingsCommand(DefaultIO *pIo, Database *pDatabase) {
