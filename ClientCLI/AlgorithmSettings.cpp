@@ -1,5 +1,9 @@
 #include "AlgorithmSettings.h"
 
+AlgorithmSettings::AlgorithmSettings(DefaultIO *defaultIO) {
+    this->dio = defaultIO;
+}
+
 void AlgorithmSettings::execute() {
     // receive message from server
     std::string message;
@@ -13,7 +17,8 @@ void AlgorithmSettings::execute() {
     std::cout << message << std::endl;
     // get response from user
     std::string userResponse;
-    std::cin >> userResponse;
+    std::cin.ignore();
+    std::getline(std::cin, userResponse);
     this->dio->write(userResponse);
     if (userResponse == "") {
         return;
@@ -27,5 +32,5 @@ void AlgorithmSettings::execute() {
     if (message != "") {
         std::cout << message;
     }
-    return;
+
 }

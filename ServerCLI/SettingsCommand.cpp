@@ -1,10 +1,11 @@
+#include <thread>
 #include "SettingsCommand.h"
 
 void SettingsCommand::execute() {
     // change the settings of the server
     // send the current settings to the client
-    this->dio->write("The current KNN parameters are:" + std::string(this->database->getK()) +
-    " " + this->database->getDistanceFunction());
+    this->dio->write("The current KNN parameters are: K = " + std::string(this->database->getK()) +
+    ", distance metric = " + this->database->getDistanceFunction());
     std::string userResponse = this->dio->read();
     if (userResponse == "") {
         return;
@@ -32,10 +33,11 @@ void SettingsCommand::execute() {
        validMetric = false;
     }
     if (validK && validMetric) {
-        this->database->isKValid(k);
+        this->database->setK(k);
         this->database->setDistanceFunction(b);
     }
     this->dio->write(returnMessage);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 }
 
 SettingsCommand::SettingsCommand(DefaultIO *pIo, Database *pDatabase) {
