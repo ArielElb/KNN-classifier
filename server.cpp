@@ -117,11 +117,13 @@ void Server::run() {
             throw std::ios_base::failure("Error accepting client");
         }
         std::cout << "Accepted client" << std::endl;
-        SocketIO clientSock(client_sock);
+        SocketIO *socketIO = new SocketIO(client_sock);
         ConnectionHandler c;
-       threads.emplace_back(std::thread(c, &clientSock));
+       threads.emplace_back(std::thread(c, socketIO));
+       threads.back().detach();
     }
 }
+
 
 
 
