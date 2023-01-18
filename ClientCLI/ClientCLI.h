@@ -9,6 +9,7 @@
 #include "UploadFile.h"
 #include "DisplayClassiffications.h"
 #include "DownloadFile.h"
+#include "ClassificationKnn.h"
 #include "IO/FileIO.h"
 #include <vector>
 #include <thread>

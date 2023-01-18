@@ -6,11 +6,11 @@
 
 UploadCommand::UploadCommand(DefaultIO *dio, Database *database) {
     this->dio = dio;
+    this->database = database;
 }
 
 void UploadCommand::execute() {
     std::string fileContent;
-    this->database = new Database();
     // upload a data file to the server
     dio->write("Please upload your local train CSV file.");
     try {

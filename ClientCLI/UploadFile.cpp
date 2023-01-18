@@ -31,7 +31,7 @@ void UploadFile::execute() {
     /// wait for the server to finish the upload - sleep
 
     //print to screen
-    std::cout << toScreen << std::endl;
+    std::cout << toScreen;
 }
 
 

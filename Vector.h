@@ -13,9 +13,9 @@ using std::string;
  */
 class Vector {
     bool classified = false;
-    string classification;
-    double distFromArg;
-    vector<double> v;
+    string classification = "";
+    double distFromArg = 0;
+    vector<double> v = {};
 
     double getNumber(string s);
 

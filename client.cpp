@@ -75,7 +75,6 @@ int Client::getPort(string portStr) {
  */
 int Client::connectSock() {
     int sock = 0, valread, client_fd;
-    struct sockaddr_in serv_addr{};
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         throw std::ios_base::failure("Socket creation error");
     }
