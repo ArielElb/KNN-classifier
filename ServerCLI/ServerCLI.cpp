@@ -2,6 +2,7 @@
 // Created by arie1 on 1/14/2023.
 //
 
+#include <condition_variable>
 #include "ServerCLI.h"
 
 
@@ -18,6 +19,12 @@ ServerCLI::ServerCLI(DefaultIO *dio) {
 }
 
 void ServerCLI::start() {
+    //create a mutex lock
+    std::mutex mtx;
+    //create a condition variable
+    std::condition_variable cv;
+    //create a unique lock
+
     int choice;
     do {
         std::string  menu = "Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
@@ -35,13 +42,19 @@ void ServerCLI::start() {
         }
         switch (choice) {
             case 1:
+                mtx.lock();
                 commands[0]->execute();
+                mtx.unlock();
                 break;
             case 2:
+                mtx.lock();
                 commands[1]->execute();
+                mtx.unlock();
                 break;
             case 3:
+                mtx.lock();
                 commands[2]->execute();
+                mtx.unlock();
                 break;
             case 4:
                 commands[3]->execute();
