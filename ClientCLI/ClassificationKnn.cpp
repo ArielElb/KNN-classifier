@@ -1,9 +1,4 @@
-
 #include "ClassificationKnn.h"
-
-//
-// Created by arie1 on 1/18/2023.
-//
 
 ClassificationKnn::ClassificationKnn(DefaultIO *socketIO) {
     this->dio = socketIO;

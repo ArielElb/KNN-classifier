@@ -1,18 +1,36 @@
 #include "AlgorithmSettings.h"
 
+AlgorithmSettings::AlgorithmSettings(DefaultIO *defaultIO) {
+    this->dio = defaultIO;
+}
+
 void AlgorithmSettings::execute() {
     // receive message from server
-    std::string message = this->dio->read();
+    std::string message;
+    try {
+        message = this->dio->read();
+    } catch (...) {
+        std::cout << "Error reading from server\n";
+        return;
+    }
     // print to screen
     std::cout << message << std::endl;
     // get response from user
     std::string userResponse;
-    std::cin >> userResponse;
+    std::cin.ignore();
+    std::getline(std::cin, userResponse);
     this->dio->write(userResponse);
     if (userResponse == "") {
         return;
     }
-    std::string input;
-    std::cin >> input;
+    try {
+        message = this->dio->read();
+    } catch (...) {
+        std::cout << "Error reading from server\n";
+        return;
+    }
+    if (message != "") {
+        std::cout << message;
+    }
 
 }

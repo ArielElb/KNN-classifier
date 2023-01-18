@@ -10,7 +10,7 @@
 
 void ClientCLI::initCommands() {
     commands.push_back(new UploadFile(this->dio));
-    // temp
+    commands.push_back(new AlgorithmSettings(this->dio));
     commands.push_back(new DownloadFile(this->dio));
     commands.push_back(new ClassificationKnn(this->dio));
     commands.push_back(new DisplayClassiffications(this->dio));
@@ -31,8 +31,6 @@ void ClientCLI::start() {
         // read the choice from the user
 
         std::cin >> input;
-
-
         string s = std::to_string(input);
         this->dio->write(s);
 
@@ -42,6 +40,7 @@ void ClientCLI::start() {
                 break;
             case 2:
                 commands[1]->execute();
+                break;
             case 3:
                 commands[2]->execute();
                 break;

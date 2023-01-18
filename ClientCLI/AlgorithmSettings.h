@@ -3,6 +3,7 @@
 
 #include "Command.h"
 #include "IO/DefaultIO.h"
+#include <unistd.h>
 
 class AlgorithmSettings : public Command {
     DefaultIO *dio;
