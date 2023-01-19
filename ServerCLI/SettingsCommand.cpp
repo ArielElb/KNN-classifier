@@ -2,7 +2,6 @@
 #include "SettingsCommand.h"
 
 void SettingsCommand::execute() {
-    this->database->resetFiles();
     // change the settings of the server
     // send the current settings to the client
     this->dio->write("The current KNN parameters are: K = " + std::string(this->database->getK()) +
@@ -36,6 +35,7 @@ void SettingsCommand::execute() {
     if (validK && validMetric) {
         this->database->setK(k);
         this->database->setDistanceFunction(b);
+        this->database->setClassfications("");
     }
     this->dio->write(returnMessage);
     this->dio->read();

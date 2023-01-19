@@ -14,8 +14,8 @@ using std::vector;
 Database::Database() {
     initDistances();
     // Create string vector for class parameter
-    this->distance = this->map["EUC"];
-    this->distanceName = "EUC";
+    this->distance = this->map["AUC"];
+    this->distanceName = "AUC";
     this->k = 5;
     this ->classifications = "";
     this->trainVectors = vector<Vector>();
