@@ -24,22 +24,31 @@ std::string SocketIO::read() {
             }
             // check if accumulated input contains '\n' (i.e. message has been completed), 
             // otherwise, continue receiving
-            if (data[data.length() - 1] == '\r') {
-                data = data.substr(0, data.length() - 1);
+            if (data[data.length() - 1] == '\t') {
+                size_t start_pos = 0;
+                while((start_pos = data.find('\t', start_pos)) != std::string::npos) {
+                    data.replace(start_pos, 1, "");
+                    start_pos += 1; // Handles cases where there are multiple consecutive tabs
+                }
                 break;
             }
         }
     }
+//    std::cout << "read: " << data << std::endl;
     return data;
 }
 
 int SocketIO::write(std::string s) {
-    // send message to client
-    s = s + "\r";
-    int sent_bytes = send(this->sockfd,s.c_str(), s.length() , 0);
-    if (sent_bytes < 0) {
-        // sending to client failed, drop client
-        throw std::ios_base::failure("Error writing to socket");
+    // send a big amont of data to client in a while loop
+    int total_bytes_sent = 0;
+    while (total_bytes_sent < s.length()) {
+        int bytes_sent = send(this->sockfd, s.c_str() + total_bytes_sent, s.length() - total_bytes_sent, 0);
+        if (bytes_sent < 0) {
+            // sending to client failed, drop client
+            throw std::ios_base::failure("Error writing to socket");
+        }
+        total_bytes_sent += bytes_sent;
     }
-    return sent_bytes;
+    send(this->sockfd, "\t", 1, 0);
+    return total_bytes_sent;
 }

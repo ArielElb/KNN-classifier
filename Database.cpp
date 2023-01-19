@@ -17,7 +17,7 @@ Database::Database() {
     this->distance = this->map["EUC"];
     this->distanceName = "EUC";
     this->k = 5;
-    this -> classifications = "";
+    this ->classifications = "";
     this->trainVectors = vector<Vector>();
     this->testVectors = vector<Vector>();
 }
@@ -59,7 +59,7 @@ string Database::knn() {
     // Create a vector of pairs, where the first element is the distance,
     // and the second is the index of the vector
 
-    for (Vector &vec: this->trainVectors) {
+    for (Vector &vec: this->testVectors) {
         std::map<string, int> classificationCount;
         vector<std::pair<double, string>> classifyKnearest;
 
@@ -159,7 +159,7 @@ void Database::initTestVectors(string fileTestVectors) {
         throw std::ios_base::failure("File contains no valid trainVectors. Exiting program");
     } else if (this->testVectors.size() > 1) { // Exit if database contains
         for (Vector vec: this->testVectors) {
-            if (vec.size() != this->testVectors[0].size()) {
+            if (vec.size() != this->testVectors[2].size()) {
                 throw std::ios_base::failure(
                         "File contains trainVectors of differing sizes. Exiting program");
             }
@@ -224,6 +224,12 @@ std::string Database::getClassfications() {
 void Database::setClassfications(const char *string) {
     this->classifications = string;
 
+}
+
+void Database::resetFiles() {
+    this->classifications = "";
+    this->trainVectors.clear();
+    this->testVectors.clear();
 }
 
 

@@ -28,12 +28,17 @@ void ServerCLI::start() {
     int choice;
     do {
         std::string  menu = "Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
-                            "file\n2. algorithm settings\n3. classify data\n4. display results\n5.download results";
+                            "file\n2. algorithm settings\n3. classify data\n4. display results\n5. download"
+                            " results\n8. exit\n";
         try {
             this->dio->write(menu);
             // read the choice from the user
             std::string input = this->dio->read();
+            if (input == ""){
+                continue;
+            }
             choice = std::stoi(input);
+
             std::cout << choice << std::endl;
             // check if the choice is valid
         }
@@ -42,19 +47,13 @@ void ServerCLI::start() {
         }
         switch (choice) {
             case 1:
-                mtx.lock();
                 commands[0]->execute();
-                mtx.unlock();
                 break;
             case 2:
-                mtx.lock();
                 commands[1]->execute();
-                mtx.unlock();
                 break;
             case 3:
-                mtx.lock();
                 commands[2]->execute();
-                mtx.unlock();
                 break;
             case 4:
                 commands[3]->execute();

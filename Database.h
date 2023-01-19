@@ -50,6 +50,7 @@ public:
     bool isFilesUnloaded();
     std::string getClassfications();
     void setClassfications(const char *string);
+    void resetFiles();
 };
 
 #endif

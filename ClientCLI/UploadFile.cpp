@@ -8,7 +8,7 @@ void UploadFile::execute() {
     //read "Please upload your local train CSV file.\n"
     std::string toScreen = this->dio->read();
     //print to screen
-    std::cout << toScreen << std::endl;
+    std::cout << toScreen;
     std::string path1;
     std::cin >> path1;
     FileIO fileIO(path1);
@@ -18,7 +18,7 @@ void UploadFile::execute() {
     //read "Upload complete.\n"
     toScreen = this->dio->read();
     // Upload complete.
-    std::cout << toScreen << std::endl;
+    std::cout << toScreen;
 
     std::string path2;
     std::cin >> path2;

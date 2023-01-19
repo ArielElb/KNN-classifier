@@ -10,16 +10,17 @@ UploadCommand::UploadCommand(DefaultIO *dio, Database *database) {
 }
 
 void UploadCommand::execute() {
+    this->database->resetFiles();
     std::string fileContent;
     // upload a data file to the server
-    dio->write("Please upload your local train CSV file.");
+    dio->write("Please upload your local train CSV file.\n");
     try {
         fileContent = dio->read();
         if (fileContent == "invalid input") {
             return;
         }
         this->database->initTrainVectors(fileContent);
-        dio->write("Upload complete.\nPlease upload your local test CSV file.");
+        dio->write("Upload complete.\nPlease upload your local test CSV file.\n");
     }
     catch (std::ios_base::failure const &ex) {
         std::cout << "Error: " << ex.what() << std::endl;
@@ -36,6 +37,6 @@ void UploadCommand::execute() {
     }
 
     catch (std::ios_base::failure const &ex) {
-
+        throw;
     }
 }

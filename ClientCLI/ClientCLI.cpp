@@ -11,7 +11,6 @@
 void ClientCLI::initCommands() {
     commands.push_back(new UploadFile(this->dio));
     commands.push_back(new AlgorithmSettings(this->dio));
-    commands.push_back(new DownloadFile(this->dio));
     commands.push_back(new ClassificationKnn(this->dio));
     commands.push_back(new DisplayClassiffications(this->dio));
     commands.push_back(new DownloadFile(this->dio));
@@ -27,7 +26,7 @@ void ClientCLI::start() {
         menu = this->dio->read();
         // print the menu
 
-        std::cout << menu << std::endl;
+        std::cout << menu;
         // read the choice from the user
 
         std::cin >> input;

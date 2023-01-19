@@ -5,15 +5,15 @@
 
 void ClassifyCommand::execute() {
     if (database->isFilesUnloaded()) {
-        this->dio->write("please upload data");
+        this->dio->write("please upload data\n");
         return;
     }
-    if (this->database->getClassfications() == "") {
+    if (this->database->getClassfications().empty()) {
         this->database->knn();
     }
     //thread sleep for 1 sec
-    this->dio->write("classifying complete");
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    this->dio->write("classifying complete\n");
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 }
 
