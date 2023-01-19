@@ -111,7 +111,7 @@ int Database::size() {
  * @param s - distance function name
  */
 void Database::initDistances() {
-    this->map["EUC"] = new AUC();
+    this->map["AUC"] = new AUC();
     this->map["CHB"] = new CHB();
     this->map["CAN"] = new CAN();
     this->map["MIN"] = new MIN();
@@ -129,6 +129,9 @@ bool Database::isKValid(int k) {
 void Database::setDistanceFunction(string s) {
     this->distanceName = s;
     this->distance = this->map[s];
+    if (this->distance == nullptr) {
+        throw "Invalid distance function";
+    }
 }
 
 Database::~Database() {

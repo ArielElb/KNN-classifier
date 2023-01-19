@@ -25,6 +25,7 @@ void AlgorithmSettings::execute() {
     }
     try {
         message = this->dio->read();
+        this->dio->write("1");
     } catch (...) {
         std::cout << "Error reading from server\n";
         return;

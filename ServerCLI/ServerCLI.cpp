@@ -34,9 +34,6 @@ void ServerCLI::start() {
             this->dio->write(menu);
             // read the choice from the user
             std::string input = this->dio->read();
-            if (input == ""){
-                continue;
-            }
             choice = std::stoi(input);
 
             std::cout << choice << std::endl;

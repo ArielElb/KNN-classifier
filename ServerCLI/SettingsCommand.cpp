@@ -2,6 +2,7 @@
 #include "SettingsCommand.h"
 
 void SettingsCommand::execute() {
+    this->database->resetFiles();
     // change the settings of the server
     // send the current settings to the client
     this->dio->write("The current KNN parameters are: K = " + std::string(this->database->getK()) +
@@ -37,7 +38,7 @@ void SettingsCommand::execute() {
         this->database->setDistanceFunction(b);
     }
     this->dio->write(returnMessage);
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    this->dio->read();
 }
 
 SettingsCommand::SettingsCommand(DefaultIO *pIo, Database *pDatabase) {
