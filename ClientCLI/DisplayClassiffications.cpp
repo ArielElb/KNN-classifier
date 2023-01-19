@@ -27,9 +27,15 @@ void DisplayClassiffications::execute() {
 
     else {
         string input;
-        std::cin.get();
-        getline(std::cin, input);
+        std::cin.ignore();
+        bool valid = true;
+        do {
+            if (!valid) {
+               std::cout << "Press enter to continue" << std::endl;
+            }
+            getline(std::cin, input);
+            valid = input.empty();
+        } while (!input.empty());
         this->dio->write(input);
     }
-    return;
 }

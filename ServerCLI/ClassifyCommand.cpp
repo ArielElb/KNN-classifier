@@ -12,7 +12,7 @@ void ClassifyCommand::execute() {
     }
     this->database->knn();
     //thread sleep for 1 sec
-    this->dio->write("classifying complete\n");
+    this->dio->write("classifying data complete\n");
     this->dio->read();
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
