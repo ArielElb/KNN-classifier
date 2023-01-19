@@ -26,30 +26,35 @@ void ClientCLI::start() {
         menu = this->dio->read();
         // print the menu
 
-        std::cout << menu;
+        std::cout << menu << std::endl;
         // read the choice from the user
-
+        std::cin.clear();
+        fflush(stdin);
         std::cin >> input;
         string s = std::to_string(input);
-        this->dio->write(s);
-
         switch (input) {
             case 1:
+                this->dio->write(s);
                 commands[0]->execute();
                 break;
             case 2:
+                this->dio->write(s);
                 commands[1]->execute();
                 break;
             case 3:
+                this->dio->write(s);
                 commands[2]->execute();
                 break;
             case 4:
+                this->dio->write(s);
                 commands[3]->execute();
                 break;
             case 8:
+                this->dio->write(s);
                 break;
             default:
-                dio->write("Not a valid input");
+                std::cout << "Invalid input" << std::endl;
+                dio->write("invalid_input");
                 break;
         }
     } while (input != 8);

@@ -12,7 +12,7 @@ class SettingsCommand : public  Command {
     Database *database;
 public:
     SettingsCommand(DefaultIO *pIo, Database *pDatabase);
-    virtual ~SettingsCommand() = default;
+    ~SettingsCommand() override = default;
     void execute() override;
 };
 

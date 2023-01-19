@@ -9,13 +9,11 @@
 
 
 class UploadCommand : public  Command {
-    void execute() override;
-    virtual ~UploadCommand() = default;
-
-public:
-//constractor
-UploadCommand(DefaultIO *dio, Database *database);
     DefaultIO *dio;
     Database *database{};
+public:
+    UploadCommand(DefaultIO *dio, Database *database);
+    void execute() override;
+    ~UploadCommand() override = default;
 };
 #endif //ASS4_UPLOADCOMMAND_H

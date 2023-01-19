@@ -29,19 +29,23 @@ void ServerCLI::start() {
     do {
         std::string  menu = "Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
                             "file\n2. algorithm settings\n3. classify data\n4. display results\n5. download"
-                            " results\n8. exit\n";
+                            " results\n8. exit";
+        this->dio->write(menu);
+        std::string input;
         try {
-            this->dio->write(menu);
             // read the choice from the user
-            std::string input = this->dio->read();
-            choice = std::stoi(input);
-
-            std::cout << choice << std::endl;
-            // check if the choice is valid
+            input = this->dio->read();
         }
         catch (std::exception &e) {
-            dio->write("Not a valid input");
+            std::cerr << "Error reading from socket" << std::endl;
+            return;
         }
+        if (input == "invalid_input") {
+            continue;
+        }
+        choice = std::stoi(input);
+        std::cout << choice << std::endl;
+        // check if the choice is valid
         switch (choice) {
             case 1:
                 commands[0]->execute();
@@ -58,10 +62,8 @@ void ServerCLI::start() {
             case 5:
                 commands[4]->execute();
                 break;
-            case 8:
-                break;
             default:
-                dio->write("Not a valid input");
+                //dio->write("Not a valid input");
                 break;
         }
     } while (choice != 8);

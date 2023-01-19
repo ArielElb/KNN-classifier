@@ -9,6 +9,7 @@ class DefaultIO {
 public:
     virtual int write(std::string text) = 0;
     virtual std::string read() = 0;
+    virtual ~DefaultIO() = default;
 };
 
 

@@ -13,7 +13,7 @@ class DownloadCommand :public  Command {
 public:
 //constractor
     DownloadCommand(DefaultIO *pIo, Database *pDatabase);
-    virtual ~DownloadCommand() = default;
+    ~DownloadCommand() override = default;
 };
 
 

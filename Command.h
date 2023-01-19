@@ -10,7 +10,7 @@ protected:
     std::string description;
 public:
     virtual void execute() = 0;
+    virtual ~Command() = default;
 };
-
 
 #endif

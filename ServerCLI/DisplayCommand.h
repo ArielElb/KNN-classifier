@@ -10,7 +10,7 @@ class DisplayCommand : public  Command {
     void execute() override;
     Database *database;
     DefaultIO *dio;
-    virtual ~DisplayCommand() = default;
+    ~DisplayCommand() override = default;
 
 public:
 //constractor
