@@ -1,6 +1,7 @@
 #ifndef ASS4_SERVER_H
 #define ASS4_SERVER_H
 #include <string>
+#include <sys/socket.h>
 #include "Database.h"
 #include "Vector.h"
 #include "ServerCLI/ServerCLI.h"
@@ -12,7 +13,7 @@ class Server{
 public:
     Server() = default;
     ~Server() = default;
-    int bindSock(int port);
+    static int bindSock(int port);
     static int extractPort(std::string portStr);
     static Vector extractVector(std::string &input);
     static void checkUserInput(unsigned long vectorSize, Database &database, int k);

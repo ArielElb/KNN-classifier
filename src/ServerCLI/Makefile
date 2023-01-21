@@ -10,6 +10,7 @@ OBJ = \
 	  ServerCLI.o \
 	  SettingsCommand.o \
 	  UploadCommand.o \
+	  Uploader.o \
 	  util.o
 
 all: $(OBJ)
@@ -45,5 +46,7 @@ SettingsCommand.h: ../General/Command.h ../General/Database.h util.h
 UploadCommand.o: UploadCommand.h
 
 UploadCommand.h: ../General/Command.h
+
+Uploader.o: Uploader.h
 
 util.o: util.h

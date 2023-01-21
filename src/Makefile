@@ -37,6 +37,7 @@ SERVER_OBJ = \
 			 ServerCLI/ServerCLI.o \
 			 ServerCLI/SettingsCommand.o \
 			 ServerCLI/UploadCommand.o \
+			 ServerCLI/Uploader.o \
 			 ServerCLI/util.o
 
 

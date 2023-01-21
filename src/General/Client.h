@@ -14,14 +14,13 @@
 #include "Vector.h"
 
 class Client {
-    int port;
+    unsigned short port;
     const char *ip;
-    struct sockaddr_in serv_addr{};
     void checkDistanceFunc(std::string &distance);
     void checkValidInput(std::string &input);
-    int getPort(string portStr);
-    int connectSock();
+    unsigned short getPort(string portStr);
 public:
+    static int connectSock(unsigned short portNo);
     void run();
     Client(std::string ipStr, std::string portStr);
     ~Client() = default;

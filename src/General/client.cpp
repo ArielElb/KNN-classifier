@@ -50,7 +50,7 @@ void Client::checkValidInput(std::string &input) {
  * converts string into valid int for port
  * @return valid port number, or -1 if none exists
  */
-int Client::getPort(string portStr) {
+unsigned short Client::getPort(string portStr) {
     int port;
     try {
         port = std::stoi(portStr);
@@ -63,24 +63,25 @@ int Client::getPort(string portStr) {
         std::cout << "Invalid port number. Exiting program" << std::endl;
         return -1;
     }
-    return port;
+    return (unsigned short) port;
 }
 
 /**
  * Connect to socket, throw exception in case of failure
  * @return file descriptor of connected socket 
  */
-int Client::connectSock() {
-    int sock = 0, valread, client_fd;
+int Client::connectSock(unsigned short portNo) {
+    int sock = 0;
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         throw std::ios_base::failure("Socket creation error");
     }
+    struct sockaddr_in serv_addr{};
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
+    serv_addr.sin_port = htons(portNo);
 //    if (inet_pton(AF_INET, ip, &serv_addr.sin_addr) <= 0) {
 //        throw; ////TODO
 //    }
-    if ((client_fd = connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr))) < 0) {
+    if (connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         throw std::ios_base::failure("\nConnection Failed");
     }
     return sock;
@@ -101,7 +102,7 @@ void Client::run() {
     // connect to socket
     int sock;
     try {
-        sock = connectSock();
+        sock = connectSock(port);
     } catch (std::ios_base::failure const &ex) {
         throw ex;
     }
@@ -109,5 +110,5 @@ void Client::run() {
     SocketIO socketIO(sock);
     ClientCLI clientCLI(&socketIO);
     clientCLI.start();
-    }
+}
 

@@ -116,7 +116,7 @@ void Server::run() {
         std::cout << "Accepted client" << std::endl;
         SocketIO *socketIO = new SocketIO(client_sock);
         ConnectionHandler c;
-        threads.emplace_back(std::thread(c, static_cast<DefaultIO *>(socketIO)));
+        threads.emplace_back(std::thread(c, socketIO));
         threads.back().detach();
     }
 }
