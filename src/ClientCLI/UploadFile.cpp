@@ -2,28 +2,61 @@
 
 void UploadFile::execute() {
     //read "Please upload your local train CSV file.\n"
-    std::string toScreen = this->dio->read();
+    std::string toScreen;
+    try {
+        toScreen = this->dio->read();
+    } catch (std::ios_base::failure const &ex) {
+        std::cerr << "Error reading from socket." << std::endl;
+        return;
+    }
     //print to screen
-    std::cout << toScreen;
     std::string path1;
-    std::cin >> path1;
-    FileIO fileIO(path1);
-    std::string localTrain = fileIO.read();
+    std::string localTrain;
+    std::cout << toScreen;
+    while (true) {
+        std::cin >> path1;
+        FileIO fileIO(path1);
+        try {
+            localTrain = fileIO.read();
+        } catch (std::ios_base::failure const &ex) {
+            std::cerr << "Invalid path. Please input a valid path and try again." << std::endl;
+            continue;
+        }
+        break;
+    }
     //send the file to the server
     this->dio->write(localTrain);
-    //read "Upload complete.\n"
-    toScreen = this->dio->read();
-    // Upload complete.
-    std::cout << toScreen;
-
+    // read success message
+    try {
+        toScreen = this->dio->read();
+    } catch (std::ios_base::failure const &ex) {
+        std::cerr << "Error reading from socket." << std::endl;
+        return;
+    }
+    // get train file from user
     std::string path2;
-    std::cin >> path2;
-    FileIO fileIO2(path2);
-    std::string localTest = fileIO2.read();
+    std::string localTest;
+    std::cout << toScreen;
+    while (true) {
+        std::cin >> path2;
+        FileIO fileIO2(path2);
+        try {
+            localTest = fileIO2.read();
+        } catch (std::ios_base::failure const &ex) {
+            std::cerr << "Invalid path. Please input a valid path and try again." << std::endl;
+            continue;
+        }
+        break;
+    }
     //send the file to the server
     this->dio->write(localTest);
     //read "Upload complete.\n"
-    toScreen = this->dio->read();
+    try {
+        toScreen = this->dio->read();
+    } catch (std::ios_base::failure const &ex) {
+        std::cerr << "Error reading from socket." << std::endl;
+        return;
+    }
     /// wait for the server to finish the upload - sleep
 
     //print to screen
