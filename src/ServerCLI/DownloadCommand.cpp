@@ -8,33 +8,30 @@
 void DownloadCommand::execute() {
     if (database->isFilesUnloaded() && database->getClassfications() == "") {
         this->dio->write("please upload data\nplease classify the data\n");
-        this->dio->read();
         return;
     }
     if (database->getClassfications().empty()) {
         this->dio->write("please classify the data\n");
-        this->dio->read();
         return;
     }
     if (database->isFilesUnloaded()) {
         this->dio->write("please upload data\n");
-        this->dio->read();
         return;
     }
     // if all is good, bind to port
     std::cout << "Creating new socket" << std::endl;
     int newSock = Server::bindSock(0);
     struct sockaddr_in addr;
-    socklen_t addrlen;
+    socklen_t addrlen = sizeof(addr);
     if (getsockname(newSock, (struct sockaddr *)(&addr), &addrlen) < 0) {
         std::cerr << "Error starting new socket" << std::endl;
         return;
     }
+    std::cout << "addrlen=" << addrlen << std::endl;
     // send port number to client
     unsigned short port = ntohs(addr.sin_port);
     std::cout << "Telling client to connect to port " << port << std::endl;
     this->dio->write(std::to_string(port));
-    this->dio->read();
     std::cout << "Waiting for connection from client" << std::endl;
     if (listen(newSock, 1) < 0) {
         throw std::ios_base::failure("Error listening to a socket");

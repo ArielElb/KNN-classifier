@@ -4,7 +4,6 @@
 
 void DownloadFile::execute() {
     std::string fromServer = this->dio->read();
-    this->dio->write("0");
     // acknowledge
     // Handle message from server
     if (fromServer == "please upload data\nplease classify the data\n") {
