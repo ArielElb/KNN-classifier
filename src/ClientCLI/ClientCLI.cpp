@@ -1,5 +1,7 @@
 #include "ClientCLI/ClientCLI.h"
 #include <utility>
+#include <iostream>
+#include <string>
 #include "IO/DefaultIO.h"
 
 
@@ -15,44 +17,28 @@ void ClientCLI::start() {
     int input = 0;
     std::string menu;
     do {
-        input = 0;
         //read menu from user
         menu = this->dio->read();
         // print the menu
-
-        std::cout << menu << std::endl;
-        // read the choice from the user
-        std::cin.clear();
-        fflush(stdin);
-        std::cin >> input;
-        string s = std::to_string(input);
-        switch (input) {
-            case 1:
+        while (true) {
+            std::cout << menu << std::endl;
+            // read the choice from the user
+            std::string s;
+            std::getline(std::cin, s);
+            try {
+                input = std::stoi(s);
+            } catch (...) {
+                input = 0;
+            }
+            if ((input >= 1 && input <= 5) || input == 8) {
                 this->dio->write(s);
-                commands[0]->execute();
+                if (input != 8) {
+                    commands[input - 1]->execute();
+                }
                 break;
-            case 2:
-                this->dio->write(s);
-                commands[1]->execute();
-                break;
-            case 3:
-                this->dio->write(s);
-                commands[2]->execute();
-                break;
-            case 4:
-                this->dio->write(s);
-                commands[3]->execute();
-                break;
-            case 5:
-                this->dio->write(s);
-                commands[4]->execute();
-            case 8:
-                this->dio->write(s);
-                break;
-            default:
+            } else {
                 std::cout << "Invalid input" << std::endl;
-                dio->write("invalid_input");
-                break;
+            }
         }
     } while (input != 8);
 }

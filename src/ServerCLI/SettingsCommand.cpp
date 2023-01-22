@@ -4,9 +4,15 @@
 void SettingsCommand::execute() {
     // change the settings of the server
     // send the current settings to the client
-    this->dio->write("The current KNN parameters are: K = " + std::string(this->database->getK()) +
-    ", distance metric = " + this->database->getDistanceFunction());
-    std::string userResponse = this->dio->read();
+    dio->write("The current KNN parameters are: K = " + std::string(database->getK()) +
+    ", distance metric = " + database->getDistanceFunction());
+    std::string userResponse;
+    try {
+        userResponse = dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from socket." << std::endl;
+        return;
+    }
     if (userResponse == "") {
         return;
     }
@@ -33,15 +39,20 @@ void SettingsCommand::execute() {
        validMetric = false;
     }
     if (validK && validMetric) {
-        this->database->setK(k);
-        this->database->setDistanceFunction(b);
-        this->database->setClassfications("");
+        database->setK(k);
+        database->setDistanceFunction(b);
+        database->setClassfications("");
     }
-    this->dio->write(returnMessage);
-    this->dio->read();
+    dio->write(returnMessage);
+    try {
+        dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from socket." << std::endl;
+        return;
+    }
 }
 
 SettingsCommand::SettingsCommand(DefaultIO *pIo, Database *pDatabase) {
-    this->dio = pIo;
-    this->database = pDatabase;
+    dio = pIo;
+    database = pDatabase;
 }

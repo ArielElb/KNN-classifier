@@ -26,13 +26,10 @@ std::string FileIO::read() {
  */
 int FileIO::write(std::string text) {
     std::ofstream file;
-    std::cout << "A" << std::endl;
-    file.open(path, std::ios::app | std::ios::app);
-    std::cout << "B" << std::endl;
+    file.open(path, std::ios::out);
     if (!file.is_open()) {
         return 1;
     }
     file << text << "\n";
-    std::cout << "C" << std::endl;
     return 0;
 }

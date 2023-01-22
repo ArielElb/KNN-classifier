@@ -2,7 +2,11 @@
 
 void AUC::operator()(Vector &a, Vector &b) {
     Vector absDiff;
-    absDiff.init(a.absValueDiff(b));
+    try {
+        absDiff.init(a.absValueDiff(b));
+    } catch (...) {
+        throw;
+    }
     a.setDistFromArg(Vector::euclideanDistance(absDiff));
 }
 AUC::AUC() = default;

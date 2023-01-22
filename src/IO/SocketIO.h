@@ -38,7 +38,9 @@ public:
     int getSock();
     SocketIO();
 
-    virtual ~SocketIO()  = default;
+    virtual ~SocketIO() {
+        close(sockfd);
+    }
 };
 
 

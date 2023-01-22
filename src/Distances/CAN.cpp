@@ -2,7 +2,11 @@
 
 void CAN::operator()(Vector &a, Vector &b) {
     Vector absDiff;
-    absDiff.init(a.absValueDiff(b));
+    try {
+        absDiff.init(a.absValueDiff(b));
+    } catch (...) {
+        throw;
+    }
     a.setDistFromArg(a.canberraDistance(a,b));
 }
 CAN::CAN() = default;

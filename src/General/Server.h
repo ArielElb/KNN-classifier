@@ -13,7 +13,7 @@ class Server{
 public:
     Server() = default;
     ~Server() = default;
-    static int bindSock(int port);
+    static int bindSock(unsigned short port);
     static int extractPort(std::string portStr);
     static Vector extractVector(std::string &input);
     static void checkUserInput(unsigned long vectorSize, Database &database, int k);

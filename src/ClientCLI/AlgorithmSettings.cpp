@@ -17,7 +17,6 @@ void AlgorithmSettings::execute() {
     std::cout << message << std::endl;
     // get response from user
     std::string userResponse;
-    std::cin.ignore();
     std::getline(std::cin, userResponse);
     this->dio->write(userResponse);
     if (userResponse == "") {

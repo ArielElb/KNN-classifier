@@ -30,7 +30,7 @@ DisplayCommand.o: DisplayCommand.h
 
 DisplayCommand.h: ../General/Command.h
 
-DownloadCommand.o: DownloadCommand.h
+DownloadCommand.o: DownloadCommand.h ../General/Server.h
 
 DownloadCommand.h: ../General/Command.h
 

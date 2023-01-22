@@ -6,19 +6,19 @@
 #include "ServerCLI/Uploader.h"
 
 void DownloadCommand::execute() {
-   if (database->isFilesUnloaded() && database->getClassfications() == "") {
-        this->dio->write("please upload data\nplease classify the data\n");
-        this->dio->read();
+    if (database->isFilesUnloaded() && database->getClassfications() == "") {
+        dio->write("please upload data\nplease classify the data\n");
+        dio->read();
         return;
     }
-    if (this->database->getClassfications().empty()) {
-        this->dio->write("please classify the data\n");
-        this->dio->read();
+    if (database->getClassfications().empty()) {
+        dio->write("please classify the data\n");
+        dio->read();
         return;
     }
     if (database->isFilesUnloaded()) {
-        this->dio->write("please upload data\n");
-        this->dio->read();
+        dio->write("please upload data\n");
+        dio->read();
         return;
     }
     // if all is good, bind to port
@@ -34,7 +34,8 @@ void DownloadCommand::execute() {
     // send port number to client
     unsigned short port = ntohs(addr.sin_port);
     std::cout << "Telling client to connect to port " << port << std::endl;
-    this->dio->write(std::to_string(port));
+    dio->write(std::to_string(port));
+    dio->read();
     std::cout << "Waiting for connection from client" << std::endl;
     if (listen(newSock, 1) < 0) {
         throw std::ios_base::failure("Error listening to a socket");
@@ -48,11 +49,11 @@ void DownloadCommand::execute() {
     std::cout << "Spawning uploader thread" << std::endl;
     SocketIO *socket = new SocketIO(clientSock);
     Uploader u;
-    std::thread thread1(u, socket, this->database);
+    std::thread thread1(u, socket, database);
     thread1.detach();
 }
 
 DownloadCommand::DownloadCommand(DefaultIO *pIo, Database *pDatabase) {
-    this->dio = pIo;
-    this->database = pDatabase;
+    dio = pIo;
+    database = pDatabase;
 }

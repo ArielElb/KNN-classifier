@@ -71,7 +71,7 @@ int Server::extractPort(string portStr) {
  * Get socket file descriptor, throw exception in case of failure
  * @return file descriptor of binded socket
  */
-int Server::bindSock(int port) {
+int Server::bindSock(unsigned short port) {
     int sock = socket(AF_INET, SOCK_STREAM, 0);     // get socket
     if (sock < 0) {
         throw std::ios_base::failure("error creating socket");

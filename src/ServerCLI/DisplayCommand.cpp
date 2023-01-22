@@ -3,28 +3,44 @@
 void DisplayCommand::execute() {
     // display the data file that is already uploaded to the server
     if (database->isFilesUnloaded() && database->getClassfications() == "") {
-        this->dio->write("please upload data\nplease classify the data\n");
-        this->dio->read();
+        dio->write("please upload data\nplease classify the data\n");
+        try {
+            dio->read();
+        } catch (...) {
+            std::cerr << "Error reading from socket." << std::endl;
+        }
         return;
     }
-    else if (this->database->getClassfications().empty()) {
-        this->dio->write("please classify the data\n");
-        this->dio->read();
+    else if (database->getClassfications().empty()) {
+        dio->write("please classify the data\n");
+        try {
+            dio->read();
+        } catch (...) {
+            std::cerr << "Error reading from socket." << std::endl;
+        }
         return;
     }
     else if (database->isFilesUnloaded()) {
-        this->dio->write("please upload data\n");
-        this->dio->read();
+        dio->write("please upload data\n");
+        try {
+            dio->read();
+        } catch (...) {
+            std::cerr << "Error reading from socket." << std::endl;
+        }
         return;
     }
-    this->dio->write(database->getClassfications() + "Done.");
-    std::string fromClient = this->dio->read();
-    std::cout << fromClient << std::endl;
+    dio->write(database->getClassfications() + "Done.");
+    std::string fromClient;
+    try {
+        fromClient = dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from socket." << std::endl;
+    }
 }
 
 DisplayCommand::DisplayCommand(DefaultIO *pIo, Database *pDatabase) {
-    this->dio = pIo;
-    this->database = pDatabase;
+    dio = pIo;
+    database = pDatabase;
 }
 
 

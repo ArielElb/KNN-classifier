@@ -2,6 +2,7 @@
 // programming
 #include <utility>
 #include "Client.h"
+#include <stdio.h>
 
 /**
  * Checks validity of inputed distance function. Throws exception if invalid
@@ -82,6 +83,7 @@ int Client::connectSock(unsigned short portNo) {
 //        throw; ////TODO
 //    }
     if (connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+        perror(NULL);
         throw std::ios_base::failure("\nConnection Failed");
     }
     return sock;

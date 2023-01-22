@@ -23,7 +23,6 @@ void DisplayClassiffications::execute() {
 
     else {
         string input;
-        std::cin.ignore();
         bool valid = true;
         do {
             if (!valid) {

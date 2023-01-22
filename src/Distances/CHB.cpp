@@ -2,7 +2,11 @@
 
 void CHB::operator()(Vector &a, Vector &target) {
     Vector absDiff;
-    absDiff.init(a.absValueDiff(target));
+    try {
+        absDiff.init(a.absValueDiff(target));
+    } catch (...) {
+        throw;
+    }
     a.setDistFromArg(Vector::chebyshevDistance(absDiff));
 }
 CHB::CHB() = default;

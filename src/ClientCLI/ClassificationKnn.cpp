@@ -4,12 +4,10 @@
 
 ClassificationKnn::ClassificationKnn(DefaultIO *socketIO) {
     this->dio = socketIO;
-
-
 }
 
 void ClassificationKnn::execute() {
-    std::string fromServer = this->dio->read();
+    std::string fromServer = dio->read();
     std::cout << fromServer;
     this->dio->write("1");
     // thread sleep for 1 sec

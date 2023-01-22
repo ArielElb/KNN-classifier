@@ -40,7 +40,11 @@ void Database::print() {
  */
 void Database::initVectors(Vector v) {
     for (Vector &vec: this->trainVectors) {
-        (*distance)(vec, v);
+        try {
+            (*distance)(vec, v);
+        } catch (...) {
+            throw;
+        }
     }
 }
 
@@ -62,9 +66,11 @@ string Database::knn() {
     for (Vector &vec: this->testVectors) {
         std::map<string, int> classificationCount;
         vector<std::pair<double, string>> classifyKnearest;
-
-
-        Database::initVectors(vec);
+        try{
+            Database::initVectors(vec);
+        } catch (...) {
+            throw;
+        }
         // Sort the vector by distance function
         std::sort(this->trainVectors.begin(), this->trainVectors.end(), comparator);
         for (int j = 0; j < this->k; j++) {
@@ -172,7 +178,6 @@ void Database::initTestVectors(string fileTestVectors) {
 }
 
 void Database::initTrainVectors(string fileTrainVectors) {
-
     // Read the file
     // Iterate over member file list
     std::istringstream sstream(fileTrainVectors);

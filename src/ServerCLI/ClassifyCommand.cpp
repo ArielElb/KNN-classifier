@@ -2,21 +2,36 @@
 
 void ClassifyCommand::execute() {
     if (database->isFilesUnloaded()) {
-        this->dio->write("please upload data\n");
-        this->dio->read();
+        dio->write("please upload data\n");
+        try {
+            dio->read();
+        } catch (...) {
+            std::cerr << "Error reading from client." << std::endl;
+            return;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         return;
     }
-    this->database->knn();
+    std::string returnstr = "classifying data complete\n";
+    try {
+        database->knn();
+    } catch (...) {
+        returnstr = "Found errors in one or more files. Please upload new files and try again.\n";
+    }
     //thread sleep for 1 sec
-    this->dio->write("classifying data complete\n");
-    this->dio->read();
+    dio->write(returnstr);
+    try {
+        dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from client." << std::endl;
+        return;
+    }
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 }
 
 ClassifyCommand::ClassifyCommand(DefaultIO *pIo, Database *pDatabase) {
-    this->dio = pIo;
-    this->database = pDatabase;
+    dio = pIo;
+    database = pDatabase;
 }
 

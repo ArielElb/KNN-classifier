@@ -254,7 +254,11 @@ double Vector::get(int i) {
 vector<double> Vector::getDistances(Vector &other) {
     // calculate abs value of difference
     Vector absDiff;
-    absDiff.init(absValueDiff(other));
+    try {
+        absDiff.init(absValueDiff(other));
+    } catch (...) {
+        throw;
+    }
     vector<double> distances;
     distances.push_back(euclideanDistance(absDiff));
     distances.push_back(manhattanDistance(absDiff));
