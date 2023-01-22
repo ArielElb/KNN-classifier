@@ -18,7 +18,12 @@ void ClientCLI::start() {
     std::string menu;
     do {
         //read menu from user
-        menu = this->dio->read();
+        try {
+            menu = this->dio->read();
+        } catch (...) {
+            std::cerr << "Error reading from socket." << std::endl;
+            return;
+        }
         // print the menu
         while (true) {
             std::cout << menu << std::endl;

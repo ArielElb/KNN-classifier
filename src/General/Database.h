@@ -28,8 +28,6 @@ private:
     Distances *distance;
     string distanceName;
     std::string classifications;
-
-
     int k;
 
 public:
@@ -42,6 +40,7 @@ public:
     void setK(int k);
     void setDistanceFunction(string s);
     std::string getK();
+    int getKInt();
     std::string getDistanceFunction();
     int size();
     void print();

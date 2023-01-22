@@ -193,13 +193,13 @@ void Database::initTrainVectors(string fileTrainVectors) {
         catch (std::ios_base::failure const &ex) {
             throw;
         }
-        this->trainVectors.push_back(v);
+        trainVectors.push_back(v);
     }
-    if (this->trainVectors.empty()) { // Exit if database contains no trainVectors
+    if (trainVectors.empty()) { // Exit if database contains no trainVectors
         throw std::ios_base::failure("File contains no valid trainVectors. Exiting program");
-    } else if (this->trainVectors.size() > 1) { // Exit if database contains
-        for (Vector vec: this->trainVectors) {
-            if (vec.size() != this->trainVectors[0].size()) {
+    } else if (trainVectors.size() > 1) { // Exit if database contains
+        for (Vector vec: trainVectors) {
+            if (vec.size() != trainVectors[0].size()) {
                 throw std::ios_base::failure(
                         "File contains trainVectors of differing sizes. Exiting program");
             }
@@ -210,6 +210,10 @@ void Database::initTrainVectors(string fileTrainVectors) {
 
 std::string Database::getK() {
     return std::to_string(this->k);
+}
+
+int Database::getKInt() {
+    return this->k;
 }
 
 std::string Database::getDistanceFunction() {

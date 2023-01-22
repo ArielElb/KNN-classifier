@@ -12,6 +12,9 @@ void ClassifyCommand::execute() {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         return;
     }
+    if (database->getKInt() > database->size()) {
+        database->setK(database->size());
+    }
     std::string returnstr = "classifying data complete\n";
     try {
         database->knn();

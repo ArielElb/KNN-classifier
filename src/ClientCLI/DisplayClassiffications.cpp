@@ -6,7 +6,13 @@ DisplayClassiffications::DisplayClassiffications(DefaultIO *dio) {
 
 void DisplayClassiffications::execute() {
     // display the data file that is already uploaded to the server
-    std::string fromServer = this->dio->read();
+    std::string fromServer;
+    try {
+        fromServer = this->dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from socket" << std::endl;
+        return;
+    }
     std::cout << fromServer ;
     if (fromServer == "please upload data\nplease classify the data\n") {
         this->dio->write("1");

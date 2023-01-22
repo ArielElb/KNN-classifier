@@ -3,7 +3,13 @@
 #include "General/Client.h"
 
 void DownloadFile::execute() {
-    std::string fromServer = this->dio->read();
+    std::string fromServer;
+    try {
+        fromServer = this->dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from socket." << std::endl;
+        return;
+    }
     // acknowledge
     // Handle message from server
     bool err = false;
@@ -25,7 +31,13 @@ void DownloadFile::execute() {
     std::string path;
     std::getline(std::cin, path);
     // fromServer contains new port number for communication
-    unsigned short newPort = std::stoi(fromServer);
+    unsigned short newPort;
+    try {
+        newPort = std::stoi(fromServer);
+    } catch (...) {
+        std::cerr << "Received unexpected input from server." << std::endl;
+        return;
+    }
     int sockfd;
     try {
         sockfd = Client::connectSock(newPort);

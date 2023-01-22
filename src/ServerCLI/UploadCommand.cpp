@@ -22,8 +22,7 @@ void UploadCommand::execute() {
     }
     try {
         database->initTrainVectors(fileContent);
-    } catch (std::ios_base::failure const &ex) {
-        // TODO tell client that the file is bad
+    } catch (std::exception const &ex) {
         std::cerr << ex.what() << std::endl;
         dio->write("-1");
         return;
@@ -42,7 +41,6 @@ void UploadCommand::execute() {
     try {
         database->initTestVectors(fileContent);
     } catch (std::ios_base::failure const &ex) {
-        // TODO tell client that the file is bad
         dio->write("-1");
         return;
     }
