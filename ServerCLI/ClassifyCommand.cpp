@@ -9,7 +9,14 @@ void ClassifyCommand::execute() {
             std::cerr << "Error reading from client." << std::endl;
             return;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        // approval from client
+        try {
+            dio->read();
+        }
+        catch (...) {
+            std::cerr << "Error reading from client." << std::endl;
+            return;
+        }
         return;
     }
     if (database->getKInt() > database->size()) {
@@ -21,16 +28,14 @@ void ClassifyCommand::execute() {
     } catch (...) {
         returnstr = "Found errors in one or more files. Please upload new files and try again.\n";
     }
-    //thread sleep for 1 sec
     dio->write(returnstr);
+    // approval from client
     try {
         dio->read();
     } catch (...) {
         std::cerr << "Error reading from client." << std::endl;
         return;
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
 }
 
 ClassifyCommand::ClassifyCommand(DefaultIO *pIo, Database *pDatabase) {

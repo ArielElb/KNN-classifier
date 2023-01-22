@@ -15,11 +15,6 @@ ServerCLI::ServerCLI(DefaultIO *dio) {
 }
 
 void ServerCLI::start() {
-    //create a mutex lock
-    std::mutex mtx;
-    //create a condition variable
-    std::condition_variable cv;
-    //create a unique lock
 
     int choice;
     do {
@@ -53,7 +48,7 @@ void ServerCLI::start() {
             return;
         }
         if (choice == 8) {
-            std::cout << "Client has disconnected" << std::endl;
+//            std::cout << "Client has disconnected" << std::endl;
         }
     } while (choice != 8);
 

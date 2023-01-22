@@ -68,10 +68,10 @@ void UploadFile::execute() {
         std::cerr << "Error reading from socket." << std::endl;
         return;
     }
-    /// wait for the server to finish the upload - sleep
-
     //print to screen
     std::cout << toScreen;
+    // send approval to the server
+    dio->write("1");
 }
 
 

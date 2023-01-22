@@ -45,6 +45,10 @@ void UploadCommand::execute() {
         return;
     }
     dio->write("Upload complete.\n");
-    // wait for the server to finish the upload - sleep
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    // get approval from user.
+    try {
+        dio->read();
+    } catch (...) {
+        std::cerr << "Error reading from socket." << std::endl;
+    }
 }

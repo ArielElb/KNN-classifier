@@ -1,6 +1,6 @@
 CXX = g++
 CPPFLAGS = -I .
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++11 -pthread
 
 SUBDIRS = ClientCLI Distances General IO ServerCLI
 
