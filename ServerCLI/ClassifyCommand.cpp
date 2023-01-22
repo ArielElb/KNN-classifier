@@ -9,14 +9,6 @@ void ClassifyCommand::execute() {
             std::cerr << "Error reading from client." << std::endl;
             return;
         }
-        // approval from client
-        try {
-            dio->read();
-        }
-        catch (...) {
-            std::cerr << "Error reading from client." << std::endl;
-            return;
-        }
         return;
     }
     if (database->getKInt() > database->size()) {
