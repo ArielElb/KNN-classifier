@@ -7,24 +7,23 @@
 
 void DownloadCommand::execute() {
     if (database->isFilesUnloaded() && database->getClassfications() == "") {
-        dio->write("please upload data\nplease classify the data\n");
-        dio->read();
+        this->dio->write("please upload data\nplease classify the data\n");
+        this->dio->read();
         return;
     }
     if (database->getClassfications().empty()) {
-        dio->write("please classify the data\n");
-        dio->read();
+        this->dio->write("please classify the data\n");
+        this->dio->read();
         return;
     }
     if (database->isFilesUnloaded()) {
-        dio->write("please upload data\n");
-        dio->read();
+        this->dio->write("please upload data\n");
+        this->dio->read();
         return;
     }
     // if all is good, bind to port
     std::cout << "Creating new socket" << std::endl;
     int newSock = Server::bindSock(0);
-    std::cout << "Sending port to client" << std::endl;
     struct sockaddr_in addr;
     socklen_t addrlen;
     if (getsockname(newSock, (struct sockaddr *)(&addr), &addrlen) < 0) {
@@ -34,8 +33,8 @@ void DownloadCommand::execute() {
     // send port number to client
     unsigned short port = ntohs(addr.sin_port);
     std::cout << "Telling client to connect to port " << port << std::endl;
-    dio->write(std::to_string(port));
-    dio->read();
+    this->dio->write(std::to_string(port));
+    this->dio->read();
     std::cout << "Waiting for connection from client" << std::endl;
     if (listen(newSock, 1) < 0) {
         throw std::ios_base::failure("Error listening to a socket");
@@ -49,7 +48,7 @@ void DownloadCommand::execute() {
     std::cout << "Spawning uploader thread" << std::endl;
     SocketIO *socket = new SocketIO(clientSock);
     Uploader u;
-    std::thread thread1(u, socket, database);
+    std::thread thread1(u, socket, this->database);
     thread1.detach();
 }
 
