@@ -6,14 +6,20 @@ void DownloadFile::execute() {
     std::string fromServer = this->dio->read();
     // acknowledge
     // Handle message from server
+    bool err = false;
     if (fromServer == "please upload data\nplease classify the data\n") {
-        return;
+        err = true;
     }
     if (fromServer == "please classify the data\n") {
-        return;
+        err = true;
     }
     if (fromServer == "please upload data\n") {
         return;
+    }
+    this->dio->write("0");
+    if (err) {
+       std::cout << fromServer << std::endl;
+       return;
     }
     std::cout << "Please enter a path to save the classifications" << std::endl;
     std::string path;
@@ -21,7 +27,6 @@ void DownloadFile::execute() {
     // fromServer contains new port number for communication
     unsigned short newPort = std::stoi(fromServer);
     int sockfd;
-    std::cout << "Connecting to port " << newPort << std::endl;
     try {
         sockfd = Client::connectSock(newPort);
     } catch (std::ios_base::failure const &ex) {

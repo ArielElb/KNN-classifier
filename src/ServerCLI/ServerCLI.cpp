@@ -36,6 +36,7 @@ void ServerCLI::start() {
             std::cerr << "Error reading from socket" << std::endl;
             return;
         }
+        //std::cout << input << std::endl;
         try {
             choice = std::stoi(input);
         } catch (...) {
