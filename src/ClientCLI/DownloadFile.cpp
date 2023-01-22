@@ -22,6 +22,7 @@ void DownloadFile::execute() {
     // fromServer contains new port number for communication
     unsigned short newPort = std::stoi(fromServer);
     int sockfd;
+    std::cout << "Connecting to port " << newPort << std::endl;
     try {
         sockfd = Client::connectSock(newPort);
     } catch (std::ios_base::failure const &ex) {
