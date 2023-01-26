@@ -14,8 +14,10 @@ ServerCLI::ServerCLI(DefaultIO *dio) {
     initCommands();
 }
 
+/*
+ * Runs server side of main menu.
+ */
 void ServerCLI::start() {
-
     int choice;
     do {
         std::string  menu = "Welcome to the KNN Classifier Server.\nPlease choose an option:\n1. upload an unclassified csv data "
@@ -48,7 +50,7 @@ void ServerCLI::start() {
             return;
         }
         if (choice == 8) {
-//            std::cout << "Client has disconnected" << std::endl;
+            std::cout << "Client has disconnected" << std::endl;
         }
     } while (choice != 8);
 

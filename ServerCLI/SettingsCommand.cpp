@@ -1,6 +1,9 @@
 #include <thread>
 #include "ServerCLI/SettingsCommand.h"
 
+/*
+ * Runs server side of algorithm settings (option 2)
+ */
 void SettingsCommand::execute() {
     // change the settings of the server
     // send the current settings to the client

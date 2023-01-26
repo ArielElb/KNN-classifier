@@ -21,8 +21,10 @@ std::string FileIO::read() {
     return data;
 }
 
-/*
+/**
  * Adds std::string text at the end of the file, then new line.
+ * @param text to write
+ * @return 0 upon successful write, 1 if error
  */
 int FileIO::write(std::string text) {
     std::ofstream file;

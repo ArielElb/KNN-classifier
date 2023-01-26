@@ -1,5 +1,8 @@
 #include "ClientCLI/UploadFile.h"
 
+/*
+ * Upload command (option 1) waits for valid path then uploads file contents to server.
+ */
 void UploadFile::execute() {
     //read "Please upload your local train CSV file.\n"
     std::string toScreen;

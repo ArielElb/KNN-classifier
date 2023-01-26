@@ -1,6 +1,9 @@
 #include "IO/SocketIO.h"
 
-//override the read function
+/**
+ * Read data from socket
+ * @return string from socket
+ */
 std::string SocketIO::read() {
     std::string data = "";
     while (true) {
@@ -34,10 +37,14 @@ std::string SocketIO::read() {
             }
         }
     }
-//    std::cout << "read: " << data << std::endl;
     return data;
 }
 
+/**
+ * Write to socket
+ * @param s total bytes sent
+ * @return
+ */
 int SocketIO::write(std::string s) {
     // send a big amont of data to client in a while loop
     int total_bytes_sent = 0;
@@ -53,6 +60,10 @@ int SocketIO::write(std::string s) {
     return total_bytes_sent;
 }
 
+/**
+ * Get socket file descriptor
+ * @return
+ */
 int SocketIO::getSock() {
     return sockfd;
 }

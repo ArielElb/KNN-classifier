@@ -92,6 +92,9 @@ Server::Server(std::string portStr) {
     port = extractPort(portStr);        // get int representation of port number
 }
 
+/**
+ * Run server functionality
+ */
 void Server::run() {
     int sock;
     try {

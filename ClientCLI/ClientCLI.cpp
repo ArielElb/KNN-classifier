@@ -12,6 +12,9 @@ void ClientCLI::initCommands() {
     commands.push_back(new DownloadFile(this->dio));
 }
 
+/*
+ * Client side of menu. Reads selection from user, sends selection to server and starts corresponding command
+ */
 void ClientCLI::start() {
     int input = 0;
     std::string menu;

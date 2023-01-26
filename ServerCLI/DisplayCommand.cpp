@@ -1,5 +1,9 @@
 #include "ServerCLI/DisplayCommand.h"
 
+/*
+ * Runs server side of display command (option 4).
+ * Send error message if criteria not fulfilled, otherwise send the classification data
+ */
 void DisplayCommand::execute() {
     // display the data file that is already uploaded to the server
     if (database->isFilesUnloaded() && database->getClassfications() == "") {

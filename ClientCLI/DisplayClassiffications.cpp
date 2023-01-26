@@ -4,6 +4,9 @@ DisplayClassiffications::DisplayClassiffications(DefaultIO *dio) {
     this->dio = dio;
 }
 
+/**
+ * Reads classifications/error message from server and prints to screen
+ */
 void DisplayClassiffications::execute() {
     // display the data file that is already uploaded to the server
     std::string fromServer;

@@ -4,6 +4,10 @@ AlgorithmSettings::AlgorithmSettings(DefaultIO *defaultIO) {
     this->dio = defaultIO;
 }
 
+/*
+ * Client side of algorithm settings (option 2)
+ * Reads user input then send to server for validation
+ */
 void AlgorithmSettings::execute() {
     // receive message from server
     std::string message;

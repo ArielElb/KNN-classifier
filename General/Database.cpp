@@ -147,7 +147,10 @@ Database::~Database() {
     }
     this->distance = nullptr;
 }
-
+/**
+ * Initialize test vectors from file
+ * @param fileTestVectors content of test file in string format
+ */
 void Database::initTestVectors(string fileTestVectors) {
     std::istringstream stream(fileTestVectors);
     char del = '\n';
@@ -176,7 +179,10 @@ void Database::initTestVectors(string fileTestVectors) {
     }
 
 }
-
+/**
+ * Init training vectors from file
+ * @param fileTrainVectors content of training file in string format
+ */
 void Database::initTrainVectors(string fileTrainVectors) {
     // Read the file
     // Iterate over member file list
@@ -220,6 +226,10 @@ std::string Database::getDistanceFunction() {
     return this->distanceName;
 }
 
+/**
+ * Check whether either dataset is unloaded (test or train)
+ * @return
+ */
 bool Database::isFilesUnloaded() {
     if (this->trainVectors.empty() || this->testVectors.empty()) {
         return true;

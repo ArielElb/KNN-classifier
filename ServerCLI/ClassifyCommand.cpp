@@ -1,5 +1,8 @@
 #include "ServerCLI/ClassifyCommand.h"
 
+/**
+ * Runs knn on the server, writes success message when complete or error message to client if necessary
+ */
 void ClassifyCommand::execute() {
     if (database->isFilesUnloaded()) {
         dio->write("please upload data\n");

@@ -5,6 +5,11 @@
 #include "General/Server.h"
 #include "ServerCLI/Uploader.h"
 
+/*
+ * Runs server side of download command (option 5).
+ * Binds to an available socket, send port address to client, then opens a thread to handle sending the file over the
+ * new socket.
+ */
 void DownloadCommand::execute() {
     if (database->isFilesUnloaded() && database->getClassfications() == "") {
         this->dio->write("please upload data\nplease classify the data\n");
@@ -34,7 +39,6 @@ void DownloadCommand::execute() {
         return;
     }
     // if all is good, bind to port
-    //std::cout << "Creating new socket" << std::endl;
     int newSock = Server::bindSock(0);
     struct sockaddr_in addr;
     socklen_t addrlen = sizeof(addr);
@@ -42,17 +46,14 @@ void DownloadCommand::execute() {
         std::cerr << "Error starting new socket" << std::endl;
         return;
     }
-    //std::cout << "addrlen=" << addrlen << std::endl;
     // send port number to client
     unsigned short port = ntohs(addr.sin_port);
-    //std::cout << "Telling client to connect to port " << port << std::endl;
     this->dio->write(std::to_string(port));
     try {
         this->dio->read();
     } catch (...) {
         std::cerr << "Error reading from socket" << std::endl;
     }
-    //std::cout << "Waiting for connection from client" << std::endl;
     if (listen(newSock, 1) < 0) {
         throw std::ios_base::failure("Error listening to a socket");
     }
@@ -62,7 +63,7 @@ void DownloadCommand::execute() {
     if (clientSock < -1) {
         throw std::ios_base::failure("Error accepting client");
     }
-    //std::cout << "Spawning uploader thread" << std::endl;
+    // open socketIO for new thread to write to
     SocketIO *socket = new SocketIO(clientSock);
     Uploader u;
     std::thread thread1(u, socket, this->database);

@@ -2,6 +2,10 @@
 #include "ClientCLI/DownloadFile.h"
 #include "General/Client.h"
 
+/*
+ * Download command (option 5). If error message received quit. Else, read port number from server and open thread
+ * to read from corresponding socket.
+ */
 void DownloadFile::execute() {
     std::string fromServer;
     try {

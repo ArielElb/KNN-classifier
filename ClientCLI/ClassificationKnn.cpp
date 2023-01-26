@@ -1,10 +1,14 @@
 #include <thread>
 #include "ClientCLI/ClassificationKnn.h"
 
+
 ClassificationKnn::ClassificationKnn(DefaultIO *socketIO) {
     this->dio = socketIO;
 }
 
+/*
+ * Client side option 3, reads message from server
+ */
 void ClassificationKnn::execute() {
     std::string fromServer;
     try {

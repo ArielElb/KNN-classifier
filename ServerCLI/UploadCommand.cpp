@@ -4,7 +4,10 @@ UploadCommand::UploadCommand(DefaultIO *dio, Database *database) {
     this->dio = dio;
     this->database = database;
 }
-
+/*
+ * Runs server side of upload command (option 1)
+ * Reads file contents from socket and inits respective database (train or test)
+ */
 void UploadCommand::execute() {
     database->resetFiles();
     std::string fileContent;
