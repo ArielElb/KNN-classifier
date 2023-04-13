@@ -1,4 +1,4 @@
-# Assignment 4
+# Knn classifier
 
 ## In this repo
 - ClientCLI : directory containing client files
