@@ -48,6 +48,9 @@ Multithreaded server can handle multiple clients at once. Opens a ServerCLI for 
 ### ServerCLI
 The server is based on the implementation seen in the lecture presentation. Reads user choice and executes approppriate command. All communication uses the TCP protocol.
 
+### Used the command design pattern
+![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/cda34278-fcff-401d-b5b6-2fa46652236e)
+
 ## Misc
 - Program recognizes valid numerical input, such as integers, decimal numbers, and scientific notation. Any invalid input in one of the vectors, whether read from a file or received as input from the user at runtime, will cause the program to read another vector.
 - Classification of the vector must be a non-numerical string. If the user attempts to classify a vector with a number, the program will interpret it as vector of length n+1 (i.e. if given vector of length 4 with a numerical classification, it will read an unclassified vector of length 5).
