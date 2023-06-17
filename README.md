@@ -49,7 +49,7 @@ Multithreaded server can handle multiple clients at once. Opens a ServerCLI for 
 The server is based on the implementation seen in the lecture presentation. Reads user choice and executes approppriate command. All communication uses the TCP protocol.
 
 ### Used the command design pattern
-![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/cda34278-fcff-401d-b5b6-2fa46652236e)
+![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/4fec53e7-f208-4fd4-9521-8d3338c97e6a)
 
 ## Misc
 - Program recognizes valid numerical input, such as integers, decimal numbers, and scientific notation. Any invalid input in one of the vectors, whether read from a file or received as input from the user at runtime, will cause the program to read another vector.
