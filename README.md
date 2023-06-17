@@ -51,6 +51,70 @@ The server is based on the implementation seen in the lecture presentation. Read
 ### Used the command design pattern
 ![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/4fec53e7-f208-4fd4-9521-8d3338c97e6a)
 
+	
+In this assignment our server can handle many client in parallelism using threads.<br>
+When a new client exceutes the program the server sent him this text: <br>
+
+![alt text](https://github.com/TopazAvraham/IntroductionToCS-University-C-programming/blob/master/Screenshots/205.png?raw=true)
+
+
+#### Option 1- Upload CSV 
+If the user pressed this option he will be given the option to enter a path to a local CSV file in this computer and after
+pressing enter, our client code will send the content of that file to the server. This file that will contain the classified vectors. After sending the file, the server will send to the client "upload complete". If the path is not legal we will print in the user's terminal "invalid input".
+
+This process will be done twice, the first one for the classified vectors and the second one for the vectors the needs to be classified.  
+After the 2 files are uploaded we will show the user the main menu again.
+
+![alt text](https://github.com/TopazAvraham/IntroductionToCS-University-C-programming/blob/master/Screenshots/204.png?raw=true)
+
+
+#### Option 2- Algorithm Settings
+If the user pressed this option he will be given the option to change the K number of neighbors the algorithm will use, or to change the distance metric the algorithms will be basing its calculations.
+
+First we will show the user the cureent KNN parameters - the K and the distance metric and afterwards he will be given the oppurtunity to change the settings, if he wishes to do so.
+
+If the user will enter wrong parameters for K or for the metric distance, then the server will send him an error indicating that there is an "invalid input for K" or "invalid input for metric" accordingly.
+
+![alt text](https://github.com/TopazAvraham/IntroductionToCS-University-C-programming/blob/master/Screenshots/203.png?raw=true)
+
+
+#### Option 3- Classify Data
+If the user pressed this option the server will start the KNN algorithm calculation based on the files uploaded and the current settings of the algorithm.
+If the user hasn't uploaded any files, or uploaded only the training file or the test file, the server will send an error to the client, saying he should upload the data.
+
+
+#### Option 4- Display Results
+If the user pressed this option the server will send the client the KNN algorithm calculation results based on the files uploaded and the current settings of the algorithm.
+
+If the user hasn't uploaded any files, or uploaded only the training file or the test file, the server will send an error to the client, saying he should upload the data.
+
+Also, if the user hasn't classified the data, meaning he didn't pressed option 3- classify data before, so the server will send him an error indicating that he needs to classify the data.
+
+![alt text](https://github.com/TopazAvraham/IntroductionToCS-University-C-programming/blob/master/Screenshots/202.png?raw=true)
+
+
+#### Option 5- Download Results
+If the user pressed this option he will be given the option to enter a path in his computer in which the program will create a CSV file in that path with the results of the classification inside the file.
+
+If the path is not correct we will show the user an error messege.
+
+If the user hasn't uploaded any files, or uploaded only the training file or the test file, the server will send an error to the client, saying he should upload the data.
+
+Also, if the user hasn't classified the data, meaning he didn't pressed option 3- classify data before, so the server will send him an error indicating that he needs to classify the data.
+
+
+#### Option 8- Exit
+If the user pressed this option we will exit the program, right after releasing all resources as sockets and thread that are beign used.
+
+
+
+
+The excecution is straight forward: we run the client and server code in different terminals. The client asks to connect to the server and the server host assigns him a designated socket and a designated thread. Then, in the client code, we are reading the input from the user, and send it to the server<br><br>
+In the server code we calculate the result based on the classes we implemented from previous assignments, using OOP principles.<br><br>
+We implemented a distance class where each metric is a different method, and We implemented a Knn class to calculate distance of the given vector from the vectors in the file, to updating the distances accordingly, to bubble sort the vectors from the file based on the distance we just calculated. Then we use a method which calculates from the given K number from the client, what was the most frequent name and returns it, as the Knn algorithm result.
+It does that for all the unclassified vectors in the that the client sent.
+If needed, the server sends the result to the client using the designated client_socket and thread that was created for him.
+<br><br>
 
 ## Misc
 - Program recognizes valid numerical input, such as integers, decimal numbers, and scientific notation. Any invalid input in one of the vectors, whether read from a file or received as input from the user at runtime, will cause the program to read another vector.
