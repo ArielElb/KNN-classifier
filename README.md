@@ -49,7 +49,7 @@ Multithreaded server can handle multiple clients at once. Opens a ServerCLI for 
 The server is based on the implementation seen in the lecture presentation. Reads user choice and executes approppriate command. All communication uses the TCP protocol.
 
 ### Used the command design pattern
-![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/f53ba01b-a04f-40fe-a494-d214a0d784af)
+![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/c6ff14f6-5328-421a-955e-32058018694c)
 
 	
 In this assignment our server can handle many client in parallelism using threads.<br>
