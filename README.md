@@ -49,7 +49,7 @@ Multithreaded server can handle multiple clients at once. Opens a ServerCLI for 
 The server is based on the implementation seen in the lecture presentation. Reads user choice and executes approppriate command. All communication uses the TCP protocol.
 
 ### Used the command design pattern
-![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/4fec53e7-f208-4fd4-9521-8d3338c97e6a)
+![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/f53ba01b-a04f-40fe-a494-d214a0d784af)
 
 	
 In this assignment our server can handle many client in parallelism using threads.<br>
@@ -107,8 +107,6 @@ Also, if the user hasn't classified the data, meaning he didn't pressed option 3
 
 #### Option 8- Exit
 If the user pressed this option we will exit the program, right after releasing all resources as sockets and thread that are beign used.
-
-
 
 
 The excecution is straight forward: we run the client and server code in different terminals. The client asks to connect to the server and the server host assigns him a designated socket and a designated thread. Then, in the client code, we are reading the input from the user, and send it to the server<br><br>
