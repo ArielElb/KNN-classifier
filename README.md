@@ -100,7 +100,9 @@ If the path is not correct we will show the user an error messege.
 
 If the user hasn't uploaded any files, or uploaded only the training file or the test file, the server will send an error to the client, saying he should upload the data.
 
-Also, if the user hasn't classified the data, meaning he didn't pressed option 3- classify data before, so the server will send him an error indicating that he needs to classify the data.
+Also, if the user hasn't classified the data, meaning he didn't pressed option 3- classify data before, so the server will send him an error indicating that he needs to classify the data. 
+
+- important note here is that each time the user want to download the results we assigning him a new socket and we binding it to port 0, the OS returning us the port of the socket so we can pass the results and still get new commands to execute and new users.
 
 
 #### Option 8- Exit
