@@ -49,9 +49,15 @@ Multithreaded server can handle multiple clients at once. Opens a ServerCLI for 
 The server is based on the implementation seen in the lecture presentation. Reads user choice and executes approppriate command. All communication uses the TCP protocol.
 
 ### Used the command design pattern
+
 ![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/c6ff14f6-5328-421a-955e-32058018694c)
 
-	
+- Invoker is the ServerCLI he holds a vector of Commands (polymorphism).
+- ConcreteCommands that inherits from Command such as :UploadCommand , SettingsCommand , ClassifyCommand ,DisplayCommand, DownloadCommand.
+- We got multi Recivers such as DefaultIO,Database that doing their actions.
+- ClientCLI - The client has parallel commands to the server so we can do what is needed on both sides.
+
+
 In this assignment our server can handle many client in parallelism using threads.<br>
 When a new client exceutes the program the server sent him this text: <br>
 
