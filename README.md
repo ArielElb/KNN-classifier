@@ -51,6 +51,7 @@ The server is based on the implementation seen in the lecture presentation. Read
 ### Used the command design pattern
 ![image](https://github.com/ArielElb/KNN-classifier/assets/94087682/4fec53e7-f208-4fd4-9521-8d3338c97e6a)
 
+
 ## Misc
 - Program recognizes valid numerical input, such as integers, decimal numbers, and scientific notation. Any invalid input in one of the vectors, whether read from a file or received as input from the user at runtime, will cause the program to read another vector.
 - Classification of the vector must be a non-numerical string. If the user attempts to classify a vector with a number, the program will interpret it as vector of length n+1 (i.e. if given vector of length 4 with a numerical classification, it will read an unclassified vector of length 5).
