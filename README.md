@@ -14,7 +14,7 @@ $make
 ###  Running
 #### Server
 ```bash
-$ ./server.out <file_name_classified> <port_number>
+$ ./server.out <port_number>
 ```
 #### Client
 ```bash 
